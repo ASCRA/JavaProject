@@ -139,7 +139,7 @@ public class Datoteke {
             }
             izlazniFajl.close();
             
-            JOptionPane.showMessageDialog(null, "Dobro dosli!");
+           
         }
         catch(IOException e)
         {
@@ -180,5 +180,26 @@ public class Datoteke {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
         return prisutniRadnici;
+    }
+    
+    public static void upisi_u_mesecnu(ArrayList<RadnikDatum> prisutniRadnici)
+    {
+        try
+        {
+            FileOutputStream fajl = new FileOutputStream("MesecnaBaza.dat");
+            ObjectOutputStream izlazniFajl = new ObjectOutputStream(fajl);
+            
+            for(int i = 0; i < prisutniRadnici.size(); i++)
+            {
+                izlazniFajl.writeObject(prisutniRadnici.get(i));
+            }
+            izlazniFajl.close();
+            
+           
+        }
+        catch(IOException e)
+        {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
 }

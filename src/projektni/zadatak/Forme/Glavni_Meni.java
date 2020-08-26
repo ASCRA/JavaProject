@@ -95,6 +95,11 @@ public class Glavni_Meni extends javax.swing.JFrame {
         izlaznoDugme.setBackground(new java.awt.Color(255, 255, 255));
         izlaznoDugme.setText("Odjava");
         izlaznoDugme.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
+        izlaznoDugme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                izlaznoDugmeActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("ID radnika:");
 
@@ -255,6 +260,47 @@ public class Glavni_Meni extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         new Izmeni_posao().setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void izlaznoDugmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_izlaznoDugmeActionPerformed
+        radnici = Datoteke.ucitajRadnike();
+        prisutniRadnici = Datoteke.citaj_iz_dnevne();
+        
+        int id = Integer.parseInt(kod.getText().trim());
+        Radnik uneseniRadnik = nadjiRadnika(id);
+        
+        if(uneseniRadnik==null)
+        {
+            JOptionPane.showMessageDialog(null, "Uneseni radnik ne postoji!");
+        }
+        
+        else
+        {
+            boolean prisutan = false;
+            int prisutni_radnik_id = 0;
+            for(int i = 0; i < prisutniRadnici.size(); i++)
+            {
+                if(uneseniRadnik.getId() == prisutniRadnici.get(i).getRadnik().getId())
+                {
+                    prisutan = true;
+                    prisutni_radnik_id = i;
+                    break;
+                }
+            }
+            
+            if(prisutan == true)
+            {
+               
+                prisutniRadnici.get(prisutni_radnik_id).setVreme_odjave(format_vreme.format(datum));
+                Datoteke.upisi_u_dnevnu(prisutniRadnici);
+                Datoteke.upisi_u_mesecnu(prisutniRadnici);
+                JOptionPane.showMessageDialog(null, "Uspesno ste odjavili radnika!");
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Radnik nije trenutno prijavljen, samo ga mozete odjaviti");
+            }
+        }
+    }//GEN-LAST:event_izlaznoDugmeActionPerformed
 
     /**
      * @param args the command line arguments
