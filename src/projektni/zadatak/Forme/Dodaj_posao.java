@@ -29,11 +29,20 @@ public class Dodaj_posao extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jScrollBar1 = new javax.swing.JScrollBar();
         jLabel1 = new javax.swing.JLabel();
         naziv_posla_dodavanje = new javax.swing.JTextField();
         dodaj_dugme_posao = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         plata_posla_dodavanje = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        vreme_dolaska_sat = new javax.swing.JSpinner();
+        jLabel5 = new javax.swing.JLabel();
+        vreme_dolaska_minut = new javax.swing.JSpinner();
+        vreme_odlaska_sat = new javax.swing.JSpinner();
+        vreme_odlaska_minut = new javax.swing.JSpinner();
+        jLabel6 = new javax.swing.JLabel();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -41,7 +50,14 @@ public class Dodaj_posao extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Naziv:");
+
+        naziv_posla_dodavanje.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                naziv_posla_dodavanjeKeyTyped(evt);
+            }
+        });
 
         dodaj_dugme_posao.setText("Dodaj");
         dodaj_dugme_posao.addActionListener(new java.awt.event.ActionListener() {
@@ -50,6 +66,7 @@ public class Dodaj_posao extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Plata:");
 
         plata_posla_dodavanje.addActionListener(new java.awt.event.ActionListener() {
@@ -58,40 +75,81 @@ public class Dodaj_posao extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Vreme dolaska:");
+
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setText("Vreme odlaska:");
+
+        vreme_dolaska_sat.setModel(new javax.swing.SpinnerNumberModel(0, 0, 24, 1));
+
+        jLabel5.setText(":");
+
+        vreme_dolaska_minut.setModel(new javax.swing.SpinnerNumberModel(0, 0, 60, 1));
+
+        vreme_odlaska_sat.setModel(new javax.swing.SpinnerNumberModel(0, 0, 24, 1));
+
+        vreme_odlaska_minut.setModel(new javax.swing.SpinnerNumberModel(0, 0, 60, 1));
+
+        jLabel6.setText(":");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(dodaj_dugme_posao, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addGap(13, 13, 13)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(naziv_posla_dodavanje, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
-                            .addComponent(plata_posla_dodavanje))))
-                .addContainerGap(49, Short.MAX_VALUE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(dodaj_dugme_posao, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(naziv_posla_dodavanje, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(plata_posla_dodavanje, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(vreme_dolaska_sat, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(vreme_odlaska_sat, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(vreme_odlaska_minut, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                                .addComponent(vreme_dolaska_minut)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(naziv_posla_dodavanje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(naziv_posla_dodavanje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(plata_posla_dodavanje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                .addComponent(dodaj_dugme_posao, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                    .addComponent(plata_posla_dodavanje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(vreme_dolaska_sat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(vreme_dolaska_minut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(vreme_odlaska_sat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(vreme_odlaska_minut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGap(18, 18, 18)
+                .addComponent(dodaj_dugme_posao, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -111,6 +169,9 @@ public class Dodaj_posao extends javax.swing.JFrame {
         {     
             String nazivPosla = naziv_posla_dodavanje.getText().trim();
             String plataPosla = plata_posla_dodavanje.getText().trim();
+            String vreme_dolaska = String.valueOf(vreme_dolaska_sat.getValue())+":"+String.valueOf(vreme_dolaska_minut.getValue());
+            String vreme_odlaska = String.valueOf(vreme_odlaska_sat.getValue())+":"+String.valueOf(vreme_odlaska_minut.getValue());
+            
             boolean mozemoDodati = true;
             
             for(int i = 0; i < poslovi.size(); i++)
@@ -125,12 +186,18 @@ public class Dodaj_posao extends javax.swing.JFrame {
             
             if(mozemoDodati == true)
             {
-                Posao posao = new Posao(Double.parseDouble(plataPosla), nazivPosla);
+                Posao posao = new Posao(Double.parseDouble(plataPosla), nazivPosla, vreme_dolaska, vreme_odlaska);
                 poslovi.add(posao);
                 Datoteke.upisiPosao(poslovi);
             }
         }
     }//GEN-LAST:event_dodaj_dugme_posaoActionPerformed
+
+    private void naziv_posla_dodavanjeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_naziv_posla_dodavanjeKeyTyped
+         char t = evt.getKeyChar();
+         if(!(Character.isAlphabetic(t)))
+             evt.consume(); 
+    }//GEN-LAST:event_naziv_posla_dodavanjeKeyTyped
 
     /**
      * @param args the command line arguments
@@ -172,9 +239,18 @@ public class Dodaj_posao extends javax.swing.JFrame {
     private javax.swing.JButton dodaj_dugme_posao;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField naziv_posla_dodavanje;
     private javax.swing.JTextField plata_posla_dodavanje;
+    private javax.swing.JSpinner vreme_dolaska_minut;
+    private javax.swing.JSpinner vreme_dolaska_sat;
+    private javax.swing.JSpinner vreme_odlaska_minut;
+    private javax.swing.JSpinner vreme_odlaska_sat;
     // End of variables declaration//GEN-END:variables
 }

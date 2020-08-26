@@ -61,6 +61,7 @@ public class Glavni_Meni extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         Izmeni = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         izvod = new javax.swing.JMenuItem();
 
@@ -116,6 +117,14 @@ public class Glavni_Meni extends javax.swing.JFrame {
             }
         });
         jMenu2.add(Izmeni);
+
+        jMenuItem2.setText("Izmeni posao");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
 
         jMenuBar1.add(jMenu2);
 
@@ -221,6 +230,10 @@ public class Glavni_Meni extends javax.swing.JFrame {
         new Izmeni_radnika().setVisible(true);
     }//GEN-LAST:event_IzmeniActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        new Izmeni_posao().setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -269,6 +282,7 @@ public class Glavni_Meni extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JTextField kod;
     private javax.swing.JButton ulaznoDugme;
     // End of variables declaration//GEN-END:variables

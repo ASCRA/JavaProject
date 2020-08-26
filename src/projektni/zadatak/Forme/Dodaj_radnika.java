@@ -59,6 +59,11 @@ public class Dodaj_radnika extends javax.swing.JFrame {
         });
 
         izbor_Posla.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        izbor_Posla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                izbor_PoslaActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Dodaj");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -146,6 +151,10 @@ public class Dodaj_radnika extends javax.swing.JFrame {
     private void ime_radnika_dodavanjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ime_radnika_dodavanjeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ime_radnika_dodavanjeActionPerformed
+
+    private void izbor_PoslaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_izbor_PoslaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_izbor_PoslaActionPerformed
 
     /**
      * @param args the command line arguments
