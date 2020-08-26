@@ -5,13 +5,16 @@
  */
 package projektni.zadatak.Forme;
 
+import java.awt.Image;
 import projektni.zadatak.Klase.Datoteke;
 import java.text.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.*;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import projektni.zadatak.Klase.*;
+
 
 public class Glavni_Meni extends javax.swing.JFrame {
 
@@ -24,9 +27,11 @@ public class Glavni_Meni extends javax.swing.JFrame {
         
     public Glavni_Meni() {
         initComponents();
-
+        ulaznoDugme.setIcon(PomocneFunkcije.Podesi_Sliku("./src/slike/prijavi.png",30,30));
+        izlaznoDugme.setIcon(PomocneFunkcije.Podesi_Sliku("./src/slike/odjavi.png",30,30));
     }
-
+  
+    
     public Radnik nadjiRadnika(int id){
         boolean postojiRadnik = false;
         int trazeniID = 0;
@@ -56,6 +61,7 @@ public class Glavni_Meni extends javax.swing.JFrame {
         kod = new javax.swing.JTextField();
         ulaznoDugme = new javax.swing.JButton();
         izlaznoDugme = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         Dodaj = new javax.swing.JMenuItem();
@@ -72,18 +78,27 @@ public class Glavni_Meni extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        kod.setBackground(new java.awt.Color(224, 224, 249));
         kod.setToolTipText("");
+        kod.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
 
+        ulaznoDugme.setBackground(new java.awt.Color(255, 255, 255));
         ulaznoDugme.setText("Prijava");
         ulaznoDugme.setToolTipText("");
+        ulaznoDugme.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
         ulaznoDugme.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ulaznoDugmeActionPerformed(evt);
             }
         });
 
+        izlaznoDugme.setBackground(new java.awt.Color(255, 255, 255));
         izlaznoDugme.setText("Odjava");
+        izlaznoDugme.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
 
+        jLabel1.setText("ID radnika:");
+
+        jMenu1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jMenu1.setText("Dodaj");
 
         Dodaj.setText("Dodaj radnika");
@@ -104,6 +119,7 @@ public class Glavni_Meni extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jMenu2.setText("Izmeni");
         jMenu2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,6 +145,7 @@ public class Glavni_Meni extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
+        jMenu3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jMenu3.setText("Radnici");
 
         izvod.setText("Izvod");
@@ -148,25 +165,29 @@ public class Glavni_Meni extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(130, 130, 130)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(86, 86, 86)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(ulaznoDugme, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(izlaznoDugme, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(kod))
-                .addContainerGap(130, Short.MAX_VALUE))
+                        .addComponent(ulaznoDugme, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(izlaznoDugme, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(kod, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(91, 91, 91)
-                .addComponent(kod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(ulaznoDugme, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(izlaznoDugme, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
-                .addContainerGap(91, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(kod, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(izlaznoDugme)
+                    .addComponent(ulaznoDugme, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(116, 116, 116))
         );
 
         pack();
@@ -278,6 +299,7 @@ public class Glavni_Meni extends javax.swing.JFrame {
     private javax.swing.JMenuItem izvod;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
