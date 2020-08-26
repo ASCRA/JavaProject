@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javax.swing.JOptionPane;
 import java.util.*;
+import javax.swing.DefaultComboBoxModel;
 import projektni.zadatak.Klase.*;
 
 public class Izmeni_radnika extends javax.swing.JFrame {
@@ -21,86 +22,26 @@ public class Izmeni_radnika extends javax.swing.JFrame {
     
     public Izmeni_radnika() {
         initComponents();
-        radnici = new ArrayList<Radnik>();
-        poslovi = new ArrayList<Posao>();
-        popuniListu();
+        radnici = Datoteke.ucitajRadnike();
+        poslovi = Datoteke.ucitajPoslove();
         
-    }
-        
-    public void popuniListu()
-    {
-        try
-        {
-            FileInputStream fajl = new FileInputStream("Poslovi.dat");
-            ObjectInputStream ulazniFajl = new ObjectInputStream(fajl);
-            
-            boolean endOfFile = false;
-            
-            while (!endOfFile)
-            {
-                try
-                {    
-                     poslovi.add((Posao) ulazniFajl.readObject());
-                }
-                catch (EOFException e)
-                {
-                    String pomocnaLista[] = new String[poslovi.size()];
-                    for(int i = 0; i < poslovi.size(); i++)
-                    pomocnaLista[i] = poslovi.get(i).getNaziv();
-                    izbor_posla.setModel(new javax.swing.DefaultComboBoxModel<>(pomocnaLista));
-                  
-                    
-                    endOfFile = true;
-                }
-                catch (Exception f)
-                {
-                    JOptionPane.showMessageDialog(null, f.getMessage());
-                }
-            }
-            
-            ulazniFajl.close();
-        }
-        catch(IOException e)
-        {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        
-        try
-        {
-            FileInputStream fajl_2 = new FileInputStream("Radnici.dat");
-            ObjectInputStream ulazniFajl_2 = new ObjectInputStream(fajl_2);
-            
-            boolean endOfFile = false;
-            
-            while (!endOfFile)
-            {
-                try
-                {    
-                     radnici.add((Radnik) ulazniFajl_2.readObject());
-                }
-                catch (EOFException e)
-                {
-                    String pomocnaLista[] = new String[radnici.size()];
-                    for(int i = 0; i < radnici.size(); i++)
-                    pomocnaLista[i] = radnici.get(i).getIme();
-                    izbor_radnika.setModel(new javax.swing.DefaultComboBoxModel<>(pomocnaLista));
-                    
-                    endOfFile = true;
-                }
-                catch (Exception f)
-                {
-                    JOptionPane.showMessageDialog(null, f.getMessage());
-                }
-            }
-            
-            ulazniFajl_2.close();
-        }
-        catch(IOException e)
-        {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        izbor_posla.setSelectedIndex(0);
         izbor_radnika.setSelectedIndex(0);
+        popuniListu();
     }
+    
+    public void popuniListu(){
+        String pomocnaLista[] = new String[poslovi.size()];
+        for(int i = 0; i < poslovi.size(); i++)
+        pomocnaLista[i] = poslovi.get(i).getNaziv();
+        izbor_posla.setModel(new DefaultComboBoxModel(pomocnaLista));
+        
+        String pomocnaLista2[] = new String[radnici.size()];
+        for(int i = 0; i < radnici.size(); i++)
+        pomocnaLista2[i] = radnici.get(i).getIme() + ", ID:" + radnici.get(i).getId();
+        izbor_radnika.setModel(new DefaultComboBoxModel(pomocnaLista2));
+    }
+       
     
     public Integer nadjiPosao(String nazivPosla){
         int indexPosla = 0;
@@ -261,6 +202,7 @@ public class Izmeni_radnika extends javax.swing.JFrame {
             prezime_radnika_dodavanje.setText(radnici.get(izabraniRadnik).getPrezime());
             ID_radnika_dodavanje.setText(radnici.get(izabraniRadnik).getId()+"");
             izbor_posla.setSelectedIndex(nadjiPosao(radnici.get(izabraniRadnik).getPosao().getNaziv()));
+           
     }//GEN-LAST:event_izbor_radnikaActionPerformed
 
     private void izmeni_radnika_dugmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_izmeni_radnika_dugmeActionPerformed

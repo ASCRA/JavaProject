@@ -32,7 +32,7 @@ public class Radnici_Meni extends javax.swing.JFrame {
                                                                 pristutniRadnici.get(i).getRadnik().getIme(), 
                                                                 pristutniRadnici.get(i).getRadnik().getPrezime(), 
                                                                 pristutniRadnici.get(i).getRadnik().getPosao().getNaziv(),
-                                                                pristutniRadnici.get(i).getDatum()});
+                                                                pristutniRadnici.get(i).getVreme_prijave()});
         
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override

@@ -17,7 +17,8 @@ public class Glavni_Meni extends javax.swing.JFrame {
 
         ArrayList<Radnik> radnici;
         ArrayList<RadnikDatum> prisutniRadnici;
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        DateFormat format_vreme = new SimpleDateFormat("HH:mm");
+        DateFormat format_datum = new SimpleDateFormat("dd/MM/yyyy");
         Date datum = new Date();
         Calendar cal = Calendar.getInstance();
         
@@ -197,10 +198,10 @@ public class Glavni_Meni extends javax.swing.JFrame {
             
             if(vecUnesen == false)
             {
-            RadnikDatum prisutniRadnik = new RadnikDatum(uneseniRadnik, dateFormat.format(datum));
-            prisutniRadnici.add(prisutniRadnik);
-            Datoteke.upisi_u_dnevnu(prisutniRadnici);
-            JOptionPane.showMessageDialog(null, "Uspesno ste prijavili radnika!");
+                RadnikDatum prisutniRadnik = new RadnikDatum(uneseniRadnik, format_datum.format(datum), format_vreme.format(datum));
+                prisutniRadnici.add(prisutniRadnik);
+                Datoteke.upisi_u_dnevnu(prisutniRadnici);
+                JOptionPane.showMessageDialog(null, "Uspesno ste prijavili radnika!");
             }
             else
             {

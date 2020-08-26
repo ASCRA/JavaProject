@@ -53,6 +53,7 @@ public class Izmeni_posao extends javax.swing.JFrame {
         obrisi_posao = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(253, 222));
 
         vreme_odlaska_minut.setModel(new javax.swing.SpinnerNumberModel(0, 0, 60, 1));
 
@@ -145,7 +146,7 @@ public class Izmeni_posao extends javax.swing.JFrame {
                                     .addComponent(vreme_odlaska_minut)
                                     .addComponent(vreme_dolaska_minut, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(izbor_posla, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(142, 142, 142))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
