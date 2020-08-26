@@ -5,17 +5,46 @@
  */
 package projektni.zadatak.Forme;
 
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import projektni.zadatak.Klase.Datoteke;
+import projektni.zadatak.Klase.Radnik;
+import projektni.zadatak.Klase.RadnikDatum;
+
 /**
  *
  * @author risti
  */
-public class Spisak_Radnika extends javax.swing.JFrame {
+public class Mesecni_Izvod extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Spisak_Radnika
-     */
-    public Spisak_Radnika() {
+    DefaultTableModel model;
+    ArrayList<Radnik> radnici;
+    ArrayList<RadnikDatum> pristutniRadnici;
+    
+    public Mesecni_Izvod() {
         initComponents();
+        model = (DefaultTableModel) tabela.getModel();
+        radnici = Datoteke.ucitajRadnike();
+        pristutniRadnici = Datoteke.citaj_iz_dnevne();
+
+        for(int i = 0; i < pristutniRadnici.size(); i++)
+        {
+            model.setColumnCount(radnici.size());
+            model.insertRow(model.getRowCount(), new Object [] {pristutniRadnici.get(i).getRadnik().getId(), 
+                                                                pristutniRadnici.get(i).getRadnik().getIme(), 
+                                                                pristutniRadnici.get(i).getRadnik().getPrezime(), 
+                                                                pristutniRadnici.get(i).getRadnik().getPosao().getNaziv(),
+                                                                pristutniRadnici.get(i).getVreme_prijave()});
+        }
+       
+        
+//        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+//            @Override
+//            public void mouseClicked(java.awt.event.MouseEvent evt) {
+//                int row = tabela.rowAtPoint(evt.getPoint());
+//                id_radnika_text.setText(String.valueOf(pristutniRadnici.get(row).getRadnik().getId()));
+//            }
+//        });
     }
 
     /**
@@ -28,30 +57,25 @@ public class Spisak_Radnika extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabela = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabela);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 221, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -78,26 +102,27 @@ public class Spisak_Radnika extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Spisak_Radnika.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Mesecni_Izvod.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Spisak_Radnika.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Mesecni_Izvod.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Spisak_Radnika.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Mesecni_Izvod.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Spisak_Radnika.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Mesecni_Izvod.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Spisak_Radnika().setVisible(true);
+                new Mesecni_Izvod().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabela;
     // End of variables declaration//GEN-END:variables
 }

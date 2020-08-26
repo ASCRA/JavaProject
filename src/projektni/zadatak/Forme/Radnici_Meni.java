@@ -5,9 +5,11 @@
  */
 package projektni.zadatak.Forme;
 
+import static com.sun.management.jmx.Trace.isSelected;
 import java.awt.Color;
 import projektni.zadatak.Klase.Datoteke;
 import java.util.*;
+import static javax.management.Query.*;
 import javax.swing.JFrame;
 import javax.swing.table.*;
 import projektni.zadatak.Klase.*;
@@ -41,6 +43,13 @@ public class Radnici_Meni extends javax.swing.JFrame {
                 id_radnika_text.setText(String.valueOf(pristutniRadnici.get(row).getRadnik().getId()));
             }
         });
+//        for(int i = 0; i < pristutniRadnici.size(); i++)
+//        {
+//            if(pristutniRadnici.get(i).getVreme_odjave()!=null)
+//            {
+//                model
+//            }
+//        }
     }
     
    
@@ -203,7 +212,7 @@ public class Radnici_Meni extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        new Mesecni_Izvod().setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
