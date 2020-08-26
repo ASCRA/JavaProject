@@ -8,10 +8,7 @@ package projektni.zadatak.Forme;
 import java.util.ArrayList;
 import projektni.zadatak.Klase.*;
 
-/**
- *
- * @author risti
- */
+
 public class Danasnji_Izvod extends javax.swing.JFrame {
 
     public static String id_radnika;
@@ -28,6 +25,7 @@ public class Danasnji_Izvod extends javax.swing.JFrame {
         jTextField3.setText(String.valueOf(radnik.getRadnik().getId()));
         jTextField4.setText(radnik.getRadnik().getPosao().getNaziv());
         jTextField5.setText(radnik.getVreme_prijave());
+        jTextField6.setText(radnik.getVreme_odjave());
     }
 
     public RadnikDatum pronadjiRadnika(String id_radnika)
