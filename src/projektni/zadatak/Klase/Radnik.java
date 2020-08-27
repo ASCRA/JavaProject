@@ -3,10 +3,10 @@ package projektni.zadatak.Klase;
 import java.io.*;
 
 public class Radnik implements Serializable{
-    private String ime;
     private String prezime;
-    private int id;
     private Posao posao;
+    private String ime;
+    private int id;
 
     public Radnik(String ime, String prezime, int id, Posao posao) {
         this.ime = ime;

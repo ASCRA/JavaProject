@@ -5,7 +5,11 @@
  */
 package projektni.zadatak.Forme;
 
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import static java.util.concurrent.TimeUnit.MINUTES;
 import projektni.zadatak.Klase.*;
 
 
@@ -19,13 +23,19 @@ public class Danasnji_Izvod extends javax.swing.JFrame {
         initComponents();
         
         radnik = pronadjiRadnika(id_radnika);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         
         jTextField1.setText(radnik.getRadnik().getIme());
         jTextField2.setText(radnik.getRadnik().getPrezime());
         jTextField3.setText(String.valueOf(radnik.getRadnik().getId()));
         jTextField4.setText(radnik.getRadnik().getPosao().getNaziv());
-        jTextField5.setText(radnik.getVreme_prijave());
+        jTextField5.setText(formatter.format(radnik.getVreme_prijave()));
         jTextField6.setText(radnik.getVreme_odjave());
+        jTextField7.setText(radnik.getRadnik().getPosao().getVremeDolaska());
+        long elapsedMinutes = Duration.between(LocalTime.parse(radnik.getRadnik().getPosao().getVremeDolaska()), radnik.getVreme_prijave()).toMinutes();
+        long sati = elapsedMinutes/60;
+        long minuti = elapsedMinutes-sati*60;
+        jTextField8.setText(String.valueOf(sati)+":"+String.valueOf(minuti));
     }
 
     public RadnikDatum pronadjiRadnika(String id_radnika)
