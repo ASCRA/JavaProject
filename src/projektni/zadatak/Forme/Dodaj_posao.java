@@ -108,13 +108,13 @@ public class Dodaj_posao extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(dodaj_dugme_posao, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
                     .addComponent(naziv_posla_dodavanje)
@@ -131,7 +131,7 @@ public class Dodaj_posao extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(vreme_odlaska_minut, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
                             .addComponent(vreme_dolaska_minut))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,7 +181,29 @@ public class Dodaj_posao extends javax.swing.JFrame {
         {     
             String nazivPosla = naziv_posla_dodavanje.getText().trim();
             String plataPosla = plata_posla_dodavanje.getText().trim();
-            String vreme_dolaska = String.valueOf(vreme_dolaska_sat.getValue())+":"+String.valueOf(vreme_dolaska_minut.getValue());
+            String vreme_dolaska = "00:00";
+            String vremeDolaskaMinut = "00";
+            String vremeDolaskaSat = "00";
+            
+            if(Integer.parseInt(String.valueOf(vreme_dolaska_sat.getValue()))>0 && Integer.parseInt(String.valueOf(vreme_dolaska_sat.getValue()))<12)
+            {
+                vremeDolaskaSat = String.valueOf("0"+vreme_dolaska_sat.getValue());
+            }
+            else
+            {
+                vremeDolaskaSat = String.valueOf(vreme_dolaska_sat.getValue());
+            }
+            
+            if(Integer.parseInt(String.valueOf(vreme_dolaska_minut.getValue()))>=0 && Integer.parseInt(String.valueOf(vreme_dolaska_minut.getValue()))<10)
+            {
+                vremeDolaskaMinut = String.valueOf(vreme_dolaska_minut.getValue()+"0");
+            }
+            else
+            {
+                vremeDolaskaMinut = String.valueOf(vreme_dolaska_minut.getValue());
+            }
+
+            vreme_dolaska = vremeDolaskaSat+":"+vremeDolaskaMinut;
             String vreme_odlaska = String.valueOf(vreme_odlaska_sat.getValue())+":"+String.valueOf(vreme_odlaska_minut.getValue());
             
             boolean mozemoDodati = true;

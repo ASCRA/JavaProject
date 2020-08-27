@@ -2,21 +2,22 @@
 package projektni.zadatak.Klase;
 
 import java.io.Serializable;
+import java.time.LocalTime;
 import java.util.Date;
 
 public class RadnikDatum implements Serializable{
     private Radnik radnik;
-    private String datum_dolaska;
-    private String vreme_prijave;
+    private Date datum_dolaska;
+    private LocalTime vreme_prijave;
     private String vreme_odjave;
     
-    public RadnikDatum(Radnik radnik, String datum_dolaska, String vreme_prijave) {
+    public RadnikDatum(Radnik radnik, Date datum_dolaska, LocalTime vreme_prijave) {
         this.radnik = radnik;
         this.datum_dolaska = datum_dolaska;
         this.vreme_prijave = vreme_prijave;
     }
 
-    public RadnikDatum(Radnik radnik, String datum_dolaska, String vreme_prijave, String vreme_odjave) {
+    public RadnikDatum(Radnik radnik, Date datum_dolaska, LocalTime vreme_prijave, String vreme_odjave) {
         this.radnik = radnik;
         this.datum_dolaska = datum_dolaska;
         this.vreme_prijave = vreme_prijave;
@@ -31,19 +32,19 @@ public class RadnikDatum implements Serializable{
         this.radnik = radnik;
     }
 
-    public String getDatum_dolaska() {
+    public Date getDatum_dolaska() {
         return datum_dolaska;
     }
 
-    public void setDatum_dolaska(String datum_dolaska) {
+    public void setDatum_dolaska(Date datum_dolaska) {
         this.datum_dolaska = datum_dolaska;
     }
 
-    public String getVreme_prijave() {
+    public LocalTime getVreme_prijave() {
         return vreme_prijave;
     }
 
-    public void setVreme_prijave(String vreme_prijave) {
+    public void setVreme_prijave(LocalTime vreme_prijave) {
         this.vreme_prijave = vreme_prijave;
     }
 

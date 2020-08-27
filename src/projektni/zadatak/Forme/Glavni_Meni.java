@@ -8,6 +8,7 @@ package projektni.zadatak.Forme;
 import java.awt.Image;
 import projektni.zadatak.Klase.Datoteke;
 import java.text.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.*;
@@ -224,7 +225,7 @@ public class Glavni_Meni extends javax.swing.JFrame {
             
             if(vecUnesen == false)
             {
-                RadnikDatum prisutniRadnik = new RadnikDatum(uneseniRadnik, format_datum.format(datum), format_vreme.format(datum));
+                RadnikDatum prisutniRadnik = new RadnikDatum(uneseniRadnik, datum, LocalTime.now());
                 prisutniRadnici.add(prisutniRadnik);
                 Datoteke.upisi_u_dnevnu(prisutniRadnici);
                 JOptionPane.showMessageDialog(null, "Uspesno ste prijavili radnika!");
@@ -292,7 +293,7 @@ public class Glavni_Meni extends javax.swing.JFrame {
                
                 prisutniRadnici.get(prisutni_radnik_id).setVreme_odjave(format_vreme.format(datum));
                 Datoteke.upisi_u_dnevnu(prisutniRadnici);
-                Datoteke.upisi_u_mesecnu(prisutniRadnici);
+                Datoteke.upisi_u_veliku(prisutniRadnici);
                 JOptionPane.showMessageDialog(null, "Uspesno ste odjavili radnika!");
             }
             else
