@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projektni.zadatak.Forme;
+package FormeIzmena;
+import KlaseOsoba.Radnik;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -22,6 +23,7 @@ public class Izmeni_radnika extends javax.swing.JFrame {
     
     public Izmeni_radnika() {
         initComponents();
+        this.setLocationRelativeTo(null);
         radnici = Datoteke.ucitajRadnike();
         poslovi = Datoteke.ucitajPoslove();
         

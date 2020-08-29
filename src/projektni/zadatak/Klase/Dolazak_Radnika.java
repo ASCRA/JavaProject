@@ -1,23 +1,24 @@
 
 package projektni.zadatak.Klase;
 
+import KlaseOsoba.Radnik;
 import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.Date;
 
-public class RadnikDatum implements Serializable{
+public class Dolazak_Radnika implements Serializable{
     private Radnik radnik;
     private Date datum_dolaska;
     private LocalTime vreme_prijave;
     private String vreme_odjave;
     
-    public RadnikDatum(Radnik radnik, Date datum_dolaska, LocalTime vreme_prijave) {
+    public Dolazak_Radnika(Radnik radnik, Date datum_dolaska, LocalTime vreme_prijave) {
         this.radnik = radnik;
         this.datum_dolaska = datum_dolaska;
         this.vreme_prijave = vreme_prijave;
     }
 
-    public RadnikDatum(Radnik radnik, Date datum_dolaska, LocalTime vreme_prijave, String vreme_odjave) {
+    public Dolazak_Radnika(Radnik radnik, Date datum_dolaska, LocalTime vreme_prijave, String vreme_odjave) {
         this.radnik = radnik;
         this.datum_dolaska = datum_dolaska;
         this.vreme_prijave = vreme_prijave;

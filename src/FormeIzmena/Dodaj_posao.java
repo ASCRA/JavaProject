@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projektni.zadatak.Forme;
+package FormeIzmena;
 
 import projektni.zadatak.Klase.Datoteke;
 import javax.swing.JOptionPane;
@@ -13,14 +13,17 @@ import projektni.zadatak.Klase.*;
  *
  * @author risti
  */
-public class Dodaj_posao extends javax.swing.JFrame {
-
-    ArrayList<Posao> poslovi;
+public class Dodaj_posao extends Glavna_Forma_Izmena {
     
     public Dodaj_posao() {
         initComponents();
-        poslovi = Datoteke.ucitajPoslove();
+        this.setLocationRelativeTo(null);
         
+    }
+    
+    @Override
+    public void ucitaj_podatke() {
+        super.ucitaj_podatke();
     }
     
     @SuppressWarnings("unchecked")
@@ -288,4 +291,6 @@ public class Dodaj_posao extends javax.swing.JFrame {
     private javax.swing.JSpinner vreme_odlaska_minut;
     private javax.swing.JSpinner vreme_odlaska_sat;
     // End of variables declaration//GEN-END:variables
+
+    
 }
