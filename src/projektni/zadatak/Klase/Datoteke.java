@@ -1,16 +1,12 @@
 
 package projektni.zadatak.Klase;
 
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import KlaseOsoba.Radnik;
+import java.io.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-public class Datoteke {
+public abstract class Datoteke {
     
     public static ArrayList<Posao> ucitajPoslove(){
         ArrayList<Posao> poslovi = new ArrayList<>();
@@ -86,8 +82,7 @@ public class Datoteke {
     {
         try
         {
-            FileOutputStream fajl = new FileOutputStream("Radnici.dat");
-            ObjectOutputStream izlazniFajl = new ObjectOutputStream(fajl);
+            ObjectOutputStream izlazniFajl = new ObjectOutputStream(new FileOutputStream("Radnici.dat"));
             
             for(int i = 0; i < radnici.size(); i++)
             {
@@ -126,7 +121,7 @@ public class Datoteke {
         }
     }
     
-    public static void upisi_u_dnevnu(ArrayList<RadnikDatum> prisutniRadnici)
+    public static void upisi_u_dnevnu(ArrayList<Dolazak_Radnika> prisutniRadnici)
     {
         try
         {
@@ -147,9 +142,9 @@ public class Datoteke {
         }
     }
     
-    public static ArrayList<RadnikDatum> citaj_iz_dnevne()
+    public static ArrayList<Dolazak_Radnika> citaj_iz_dnevne()
     {
-        ArrayList<RadnikDatum> prisutniRadnici = new ArrayList<>();
+        ArrayList<Dolazak_Radnika> prisutniRadnici = new ArrayList<>();
         try
         {
             FileInputStream fajl = new FileInputStream("DnevnaBaza.dat");
@@ -161,7 +156,7 @@ public class Datoteke {
             {
                 try
                 {    
-                     prisutniRadnici.add((RadnikDatum) ulazniFajl.readObject());
+                     prisutniRadnici.add((Dolazak_Radnika) ulazniFajl.readObject());
                 }
                 catch (EOFException e)
                 {
@@ -182,7 +177,7 @@ public class Datoteke {
         return prisutniRadnici;
     }
     
-    public static void upisi_u_veliku(ArrayList<RadnikDatum> prisutniRadnici)
+    public static void upisi_u_veliku(ArrayList<Dolazak_Radnika> prisutniRadnici)
     {
         try
         {
@@ -203,7 +198,7 @@ public class Datoteke {
         }
     }
     
-        public static void citaj_iz_velike(ArrayList<RadnikDatum> prisutniRadnici)
+        public static void citaj_iz_velike(ArrayList<Dolazak_Radnika> prisutniRadnici)
     {
         try
         {

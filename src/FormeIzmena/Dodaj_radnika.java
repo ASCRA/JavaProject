@@ -3,23 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projektni.zadatak.Forme;
+package FormeIzmena;
 
+import KlaseOsoba.Radnik;
 import projektni.zadatak.Klase.Datoteke;
 import javax.swing.JOptionPane;
-import java.util.*;
 import projektni.zadatak.Klase.*;
 
-public class Dodaj_radnika extends javax.swing.JFrame {
+public final class Dodaj_radnika extends Glavna_Forma_Izmena {
 
-    ArrayList<Radnik> radnici;
-    ArrayList<Posao> poslovi;
-    
     public Dodaj_radnika() {
         initComponents();
-        radnici = Datoteke.ucitajRadnike();
-        poslovi = Datoteke.ucitajPoslove();
+        this.setLocationRelativeTo(null);
+        ucitaj_podatke();
         izbor_Posla.setModel(new javax.swing.DefaultComboBoxModel<>(PomocneFunkcije.popuniListuPoslova(poslovi)));
+    }
+    
+    @Override
+    public void ucitaj_podatke() {
+        super.ucitaj_podatke();
     }
     
     @SuppressWarnings("unchecked")
@@ -111,13 +113,16 @@ public class Dodaj_radnika extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(ime_radnika_dodavanje, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(prezime_radnika_dodavanje, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel2))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(ime_radnika_dodavanje, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(prezime_radnika_dodavanje, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
@@ -126,7 +131,7 @@ public class Dodaj_radnika extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(izbor_Posla, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(23, Short.MAX_VALUE))
@@ -154,8 +159,9 @@ public class Dodaj_radnika extends javax.swing.JFrame {
             
             Radnik radnik = new Radnik(imeRadnika, prezimeRadnika, idRadnika, izabraniPosao);
             
-            radnici.add(radnik);
             
+            radnici.add(radnik);
+            JOptionPane.showMessageDialog(null, radnici.get(0).getIme());
             Datoteke.upisiRadnika(radnici);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -215,4 +221,6 @@ public class Dodaj_radnika extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField prezime_radnika_dodavanje;
     // End of variables declaration//GEN-END:variables
+
+
 }

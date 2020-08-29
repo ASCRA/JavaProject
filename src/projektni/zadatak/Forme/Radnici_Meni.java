@@ -5,6 +5,9 @@
  */
 package projektni.zadatak.Forme;
 
+import KlaseOsoba.Radnik;
+import FormeIzvoda.Danasnji_Izvod;
+import FormeIzvoda.Mesecni_Izvod;
 import java.awt.Color;
 import projektni.zadatak.Klase.Datoteke;
 import java.util.*;
@@ -19,10 +22,11 @@ public class Radnici_Meni extends javax.swing.JFrame {
 
     DefaultTableModel model;
     ArrayList<Radnik> radnici;
-    ArrayList<RadnikDatum> pristutniRadnici;
+    ArrayList<Dolazak_Radnika> pristutniRadnici;
             
     public Radnici_Meni() {
         initComponents();
+        this.setLocationRelativeTo(null);
         model = (DefaultTableModel) tabela.getModel();
         radnici = Datoteke.ucitajRadnike();
         pristutniRadnici = Datoteke.citaj_iz_dnevne();

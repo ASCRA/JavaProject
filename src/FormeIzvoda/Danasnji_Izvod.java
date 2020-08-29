@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projektni.zadatak.Forme;
+package FormeIzvoda;
 
 import java.time.Duration;
 import java.time.LocalTime;
@@ -16,12 +16,12 @@ import projektni.zadatak.Klase.*;
 public class Danasnji_Izvod extends javax.swing.JFrame {
 
     public static String id_radnika;
-    ArrayList<RadnikDatum> pristutniRadnici;
-    RadnikDatum radnik;
+    ArrayList<Dolazak_Radnika> pristutniRadnici;
+    Dolazak_Radnika radnik;
     
     public Danasnji_Izvod() {
         initComponents();
-        
+        this.setLocationRelativeTo(null);
         radnik = pronadjiRadnika(id_radnika);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         
@@ -38,7 +38,7 @@ public class Danasnji_Izvod extends javax.swing.JFrame {
         jTextField8.setText(String.valueOf(sati)+":"+String.valueOf(minuti));
     }
 
-    public RadnikDatum pronadjiRadnika(String id_radnika)
+    public Dolazak_Radnika pronadjiRadnika(String id_radnika)
     {
         pristutniRadnici = Datoteke.citaj_iz_dnevne();
         boolean nadjenRadnik = false;

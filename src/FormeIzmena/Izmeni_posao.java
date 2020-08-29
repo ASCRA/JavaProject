@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projektni.zadatak.Forme;
+package FormeIzmena;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,26 +12,21 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javax.swing.JOptionPane;
 import java.util.*;
+import javax.swing.DefaultComboBoxModel;
 import projektni.zadatak.Klase.*;
 
-public class Izmeni_posao extends javax.swing.JFrame {
+public class Izmeni_posao extends Glavna_Forma_Izmena {
 
-    ArrayList<Radnik> radnici;
-    ArrayList<Posao> poslovi;
-    
     public Izmeni_posao() {
         initComponents();
-        radnici = Datoteke.ucitajRadnike();
-        poslovi = Datoteke.ucitajPoslove();
-        popuniListu();
+        this.setLocationRelativeTo(null);
+        izbor_posla.setModel(super.popuni_listu_poslova());
+        izbor_posla.setSelectedIndex(0);
     }
     
-    public void popuniListu(){
-        String pomocnaLista[] = new String[poslovi.size()];
-        for(int i = 0; i < poslovi.size(); i++)
-        pomocnaLista[i] = poslovi.get(i).getNaziv();
-        izbor_posla.setModel(new javax.swing.DefaultComboBoxModel<>(pomocnaLista));
-        izbor_posla.setSelectedIndex(0);
+    @Override
+    public void ucitaj_podatke() {
+        super.ucitaj_podatke();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -55,7 +50,6 @@ public class Izmeni_posao extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(350, 300));
 
         vreme_odlaska_minut.setModel(new javax.swing.SpinnerNumberModel(0, 0, 60, 1));
 

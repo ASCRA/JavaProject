@@ -1,26 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package projektni.zadatak.Forme;
 
-import java.awt.Image;
+import KlaseOsoba.Radnik;
+import FormeIzmena.Dodaj_posao;
+import FormeIzmena.Izmeni_radnika;
+import FormeIzmena.Dodaj_radnika;
+import FormeIzmena.Izmeni_posao;
 import projektni.zadatak.Klase.Datoteke;
 import java.text.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.*;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import projektni.zadatak.Klase.*;
 
 
 public class Glavni_Meni extends javax.swing.JFrame {
-
+            
         ArrayList<Radnik> radnici;
-        ArrayList<RadnikDatum> prisutniRadnici;
+        ArrayList<Posao> poslovi;
+        ArrayList<Dolazak_Radnika> prisutniRadnici;
         DateFormat format_vreme = new SimpleDateFormat("HH:mm");
         DateFormat format_datum = new SimpleDateFormat("dd/MM/yyyy");
         Date datum = new Date();
@@ -28,6 +28,7 @@ public class Glavni_Meni extends javax.swing.JFrame {
         
     public Glavni_Meni() {
         initComponents();
+        
         ulaznoDugme.setIcon(PomocneFunkcije.Podesi_Sliku("./src/slike/prijavi.png",30,30));
         izlaznoDugme.setIcon(PomocneFunkcije.Podesi_Sliku("./src/slike/odjavi.png",30,30));
     }
@@ -225,7 +226,7 @@ public class Glavni_Meni extends javax.swing.JFrame {
             
             if(vecUnesen == false)
             {
-                RadnikDatum prisutniRadnik = new RadnikDatum(uneseniRadnik, datum, LocalTime.now());
+                Dolazak_Radnika prisutniRadnik = new Dolazak_Radnika(uneseniRadnik, datum, LocalTime.now());
                 prisutniRadnici.add(prisutniRadnik);
                 Datoteke.upisi_u_dnevnu(prisutniRadnici);
                 JOptionPane.showMessageDialog(null, "Uspesno ste prijavili radnika!");

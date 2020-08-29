@@ -16,6 +16,7 @@ public class Spisak_Radnika extends javax.swing.JFrame {
      */
     public Spisak_Radnika() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
