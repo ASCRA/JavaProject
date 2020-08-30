@@ -1,10 +1,18 @@
 
 package projektni.zadatak.Klase;
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import javax.swing.JOptionPane;
 
 public class Posao implements Serializable{
     
@@ -62,12 +70,31 @@ public class Posao implements Serializable{
         this.VremeOdlaska = VremeOdlaska;
     }
     
-    public long obracunajMesecnuKvotu(Month mesec)
+    public long obracunajMesecnuKvotu(int mesec)
     {
-        long brojSati = Duration.between(LocalTime.parse(this.vremeDolaska), LocalTime.parse(this.VremeOdlaska)).toHours();
-        long brojDana = mesec.length(false);
-        long ukupanRad = brojSati*brojDana;
+        Calendar cal = Calendar.getInstance();
+        int godina = 2020;
+        int datum = 1;
         
-        return ukupanRad;
+        cal.set(godina, mesec, datum);
+        long brojRadnih = 0;
+        while(datum < cal.getActualMaximum(Calendar.DAY_OF_MONTH))
+        {
+            if(!((cal.getTime().toInstant().atZone(ZoneId.systemDefault()).getDayOfWeek().compareTo(DayOfWeek.SUNDAY) == 0)
+                    ||(cal.getTime().toInstant().atZone(ZoneId.systemDefault()).getDayOfWeek().compareTo(DayOfWeek.SATURDAY) == 0)))
+            brojRadnih++;
+                cal.set(godina, mesec, ++datum);
+        }
+        long brojSati = Duration.between(LocalTime.parse(this.vremeDolaska), LocalTime.parse(this.VremeOdlaska)).toHours();
+        
+        return brojRadnih*brojSati;
+    }
+    public static ArrayList<Month> values()
+    {
+        ArrayList<Month> daniMeseca = new ArrayList<>();
+           for (Month c : Month.values())
+               daniMeseca.add(c);
+           
+        return daniMeseca;   
     }
 }

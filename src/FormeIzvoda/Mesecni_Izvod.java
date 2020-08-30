@@ -37,8 +37,7 @@ public class Mesecni_Izvod extends javax.swing.JFrame {
                                                                 radnici.get(i).getIme(), 
                                                                 radnici.get(i).getPrezime(), 
                                                                 radnici.get(i).getPosao().getNaziv(),
-                                                                obracunajRadneSate(radnici.get(i)),
-                                                                radnici.get(i).getPosao().obracunajMesecnuKvotu(LocalDate.now().getMonth())});
+                                                                radnici.get(i).getPosao().obracunajMesecnuKvotu(Integer.parseInt(izabraniMesec))});
         }
         
         DefaultTableCellRenderer render = new DefaultTableCellRenderer();
