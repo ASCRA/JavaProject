@@ -118,6 +118,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ime_radnika_dodavanjeActionPerformed"/>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="ime_radnika_dodavanjeKeyTyped"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="prezime_radnika_dodavanje">
@@ -133,6 +134,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="prezime_radnika_dodavanjeActionPerformed"/>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="prezime_radnika_dodavanjeKeyTyped"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="ID_radnika_dodavanje">
@@ -146,6 +148,9 @@
           </Border>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="ID_radnika_dodavanjeKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="izbor_Posla">
       <Properties>

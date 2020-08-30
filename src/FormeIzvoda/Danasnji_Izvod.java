@@ -5,6 +5,7 @@
  */
 package FormeIzvoda;
 
+import KlaseOsoba.Dolazak_Radnika;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -30,12 +31,19 @@ public class Danasnji_Izvod extends javax.swing.JFrame {
         jTextField3.setText(String.valueOf(radnik.getRadnik().getId()));
         jTextField4.setText(radnik.getRadnik().getPosao().getNaziv());
         jTextField5.setText(formatter.format(radnik.getVreme_prijave()));
-        jTextField6.setText(radnik.getVreme_odjave());
+        jTextField6.setText(formatter.format(radnik.getVreme_odjave()));
         jTextField7.setText(radnik.getRadnik().getPosao().getVremeDolaska());
         long elapsedMinutes = Duration.between(LocalTime.parse(radnik.getRadnik().getPosao().getVremeDolaska()), radnik.getVreme_prijave()).toMinutes();
         long sati = elapsedMinutes/60;
         long minuti = elapsedMinutes-sati*60;
+        if(sati<=0)
+        {
+        jTextField8.setText(String.valueOf(minuti));
+        }
+        else
+        {
         jTextField8.setText(String.valueOf(sati)+":"+String.valueOf(minuti));
+        }
     }
 
     public Dolazak_Radnika pronadjiRadnika(String id_radnika)
@@ -131,7 +139,6 @@ public class Danasnji_Izvod extends javax.swing.JFrame {
                                 .addGap(70, 70, 70)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel8)
-                                    .addComponent(jLabel7)
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel2)
@@ -139,7 +146,10 @@ public class Danasnji_Izvod extends javax.swing.JFrame {
                                     .addComponent(jLabel5)))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jLabel6)))
+                                .addComponent(jLabel6))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel7)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextField1)
@@ -181,9 +191,9 @@ public class Danasnji_Izvod extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

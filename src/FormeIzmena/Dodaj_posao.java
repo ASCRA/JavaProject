@@ -14,11 +14,13 @@ import projektni.zadatak.Klase.*;
  * @author risti
  */
 public class Dodaj_posao extends Glavna_Forma_Izmena {
-    
+    String vreme_dolaska = "00:00";
+    String vreme_odlaska = "00:00";
+            
     public Dodaj_posao() {
         initComponents();
         this.setLocationRelativeTo(null);
-        
+        ucitaj_podatke();
     }
     
     @Override
@@ -47,6 +49,8 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
         vreme_odlaska_minut = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        jLabel7 = new javax.swing.JLabel();
+        id_posla_dodavanje = new javax.swing.JTextField();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -74,13 +78,18 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
         });
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("Plata:");
+        jLabel2.setText("Plata po satu:");
 
         plata_posla_dodavanje.setBackground(new java.awt.Color(224, 224, 249));
         plata_posla_dodavanje.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         plata_posla_dodavanje.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 plata_posla_dodavanjeActionPerformed(evt);
+            }
+        });
+        plata_posla_dodavanje.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                plata_posla_dodavanjeKeyTyped(evt);
             }
         });
 
@@ -104,22 +113,40 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
+        jLabel7.setText("ID:");
+
+        id_posla_dodavanje.setBackground(new java.awt.Color(224, 224, 249));
+        id_posla_dodavanje.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        id_posla_dodavanje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                id_posla_dodavanjeActionPerformed(evt);
+            }
+        });
+        id_posla_dodavanje.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                id_posla_dodavanjeKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel7))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(dodaj_dugme_posao, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                    .addComponent(dodaj_dugme_posao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(naziv_posla_dodavanje)
                     .addComponent(plata_posla_dodavanje)
                     .addGroup(layout.createSequentialGroup()
@@ -129,19 +156,27 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(vreme_odlaska_minut, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-                            .addComponent(vreme_dolaska_minut))))
-                .addContainerGap(14, Short.MAX_VALUE))
+                            .addComponent(vreme_odlaska_minut)
+                            .addComponent(vreme_dolaska_minut, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(id_posla_dodavanje))
+                .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(id_posla_dodavanje, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(11, 11, 11))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(18, 18, 18)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(naziv_posla_dodavanje, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
@@ -161,10 +196,10 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
                             .addComponent(vreme_odlaska_sat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(vreme_odlaska_minut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6)))
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(dodaj_dugme_posao, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
@@ -175,20 +210,47 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
     }//GEN-LAST:event_plata_posla_dodavanjeActionPerformed
 
     private void dodaj_dugme_posaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodaj_dugme_posaoActionPerformed
-       
+        poslovi = Datoteke.ucitajPoslove();
         if(naziv_posla_dodavanje.getText().isEmpty() || plata_posla_dodavanje.getText().isEmpty())
         {
             JOptionPane.showMessageDialog(null, "Popunite sva polja!");
         }
         else
         {     
+            
+            int id = Integer.parseInt(id_posla_dodavanje.getText().trim());
             String nazivPosla = naziv_posla_dodavanje.getText().trim();
-            String plataPosla = plata_posla_dodavanje.getText().trim();
-            String vreme_dolaska = "00:00";
+            
+            double plataPosla = Double.parseDouble(plata_posla_dodavanje.getText().trim());
+            PodesiVremeDolaska();
+            PodesiVremeOdlaska();
+            
+            boolean mozemoDodati = true;
+            
+            for(int i = 0; i < poslovi.size(); i++)
+            {
+                if(poslovi.get(i).getNaziv().equals(nazivPosla) || (poslovi.get(i).getId() == id))
+                {
+                    JOptionPane.showMessageDialog(null, "Zadati posao vec postoji ili ste uneli postojeći ID!");
+                    mozemoDodati = false;
+                    break;
+                }
+            }
+            
+            if(mozemoDodati == true)
+            {
+                Posao posao = new Posao(id, plataPosla, nazivPosla, vreme_dolaska, vreme_odlaska);
+                poslovi.add(posao);
+                Datoteke.upisiPosao(poslovi);
+                JOptionPane.showMessageDialog(null, "Uspesno sacuvano!");
+            }
+        }
+    }//GEN-LAST:event_dodaj_dugme_posaoActionPerformed
+    
+    public void PodesiVremeDolaska(){
             String vremeDolaskaMinut = "00";
             String vremeDolaskaSat = "00";
-            
-            if(Integer.parseInt(String.valueOf(vreme_dolaska_sat.getValue()))>0 && Integer.parseInt(String.valueOf(vreme_dolaska_sat.getValue()))<12)
+        if(Integer.parseInt(String.valueOf(vreme_dolaska_sat.getValue()))>0 && Integer.parseInt(String.valueOf(vreme_dolaska_sat.getValue()))<12)
             {
                 vremeDolaskaSat = String.valueOf("0"+vreme_dolaska_sat.getValue());
             }
@@ -205,36 +267,53 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
             {
                 vremeDolaskaMinut = String.valueOf(vreme_dolaska_minut.getValue());
             }
-
             vreme_dolaska = vremeDolaskaSat+":"+vremeDolaskaMinut;
-            String vreme_odlaska = String.valueOf(vreme_odlaska_sat.getValue())+":"+String.valueOf(vreme_odlaska_minut.getValue());
-            
-            boolean mozemoDodati = true;
-            
-            for(int i = 0; i < poslovi.size(); i++)
+    }
+    
+    public void PodesiVremeOdlaska(){
+            String vremeOdlaskaMinut = "00";
+            String vremeOdlaskaSat = "00";
+        if(Integer.parseInt(String.valueOf(vreme_odlaska_sat.getValue()))>0 && Integer.parseInt(String.valueOf(vreme_odlaska_sat.getValue()))<12)
             {
-                if(poslovi.get(i).getNaziv().equals(nazivPosla))
-                {
-                    JOptionPane.showMessageDialog(null, "Zadati posao vec postoji!");
-                    mozemoDodati = false;
-                    break;
-                }
+                vremeOdlaskaSat = String.valueOf("0"+vreme_odlaska_sat.getValue());
+            }
+            else
+            {
+                vremeOdlaskaSat = String.valueOf(vreme_odlaska_sat.getValue());
             }
             
-            if(mozemoDodati == true)
+            if(Integer.parseInt(String.valueOf(vreme_odlaska_minut.getValue()))>=0 && Integer.parseInt(String.valueOf(vreme_odlaska_minut.getValue()))<10)
             {
-                Posao posao = new Posao(Double.parseDouble(plataPosla), nazivPosla, vreme_dolaska, vreme_odlaska);
-                poslovi.add(posao);
-                Datoteke.upisiPosao(poslovi);
+                vremeOdlaskaMinut = String.valueOf(vreme_odlaska_minut.getValue()+"0");
             }
-        }
-    }//GEN-LAST:event_dodaj_dugme_posaoActionPerformed
-
+            else
+            {
+                vremeOdlaskaMinut = String.valueOf(vreme_odlaska_minut.getValue());
+            }
+            vreme_odlaska = vremeOdlaskaSat+":"+vremeOdlaskaMinut;
+    }
+    
     private void naziv_posla_dodavanjeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_naziv_posla_dodavanjeKeyTyped
          char t = evt.getKeyChar();
-         if(!(Character.isAlphabetic(t)))
+         if(!(Character.isAlphabetic(t)||Character.isSpaceChar(t)))
              evt.consume(); 
     }//GEN-LAST:event_naziv_posla_dodavanjeKeyTyped
+
+    private void id_posla_dodavanjeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_id_posla_dodavanjeKeyTyped
+        char t = evt.getKeyChar();
+         if(!(Character.isDigit(t)))
+             evt.consume(); 
+    }//GEN-LAST:event_id_posla_dodavanjeKeyTyped
+
+    private void id_posla_dodavanjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_id_posla_dodavanjeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_id_posla_dodavanjeActionPerformed
+
+    private void plata_posla_dodavanjeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_plata_posla_dodavanjeKeyTyped
+       char t = evt.getKeyChar();
+         if(!(Character.isDigit(t)))
+             evt.consume();
+    }//GEN-LAST:event_plata_posla_dodavanjeKeyTyped
 
     /**
      * @param args the command line arguments
@@ -274,12 +353,14 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton dodaj_dugme_posao;
+    private javax.swing.JTextField id_posla_dodavanje;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;

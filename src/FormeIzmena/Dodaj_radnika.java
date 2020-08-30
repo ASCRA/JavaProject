@@ -56,6 +56,11 @@ public final class Dodaj_radnika extends Glavna_Forma_Izmena {
                 ime_radnika_dodavanjeActionPerformed(evt);
             }
         });
+        ime_radnika_dodavanje.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ime_radnika_dodavanjeKeyTyped(evt);
+            }
+        });
 
         prezime_radnika_dodavanje.setBackground(new java.awt.Color(224, 224, 249));
         prezime_radnika_dodavanje.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
@@ -64,9 +69,19 @@ public final class Dodaj_radnika extends Glavna_Forma_Izmena {
                 prezime_radnika_dodavanjeActionPerformed(evt);
             }
         });
+        prezime_radnika_dodavanje.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                prezime_radnika_dodavanjeKeyTyped(evt);
+            }
+        });
 
         ID_radnika_dodavanje.setBackground(new java.awt.Color(224, 224, 249));
         ID_radnika_dodavanje.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        ID_radnika_dodavanje.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ID_radnika_dodavanjeKeyTyped(evt);
+            }
+        });
 
         izbor_Posla.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         izbor_Posla.addActionListener(new java.awt.event.ActionListener() {
@@ -145,24 +160,40 @@ public final class Dodaj_radnika extends Glavna_Forma_Izmena {
     }//GEN-LAST:event_prezime_radnika_dodavanjeActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        radnici = Datoteke.ucitajRadnike();
         if(ime_radnika_dodavanje.getText().isEmpty() || prezime_radnika_dodavanje.getText().isEmpty() || ID_radnika_dodavanje.getText().isEmpty())
         {
             JOptionPane.showMessageDialog(null, "Popunite sva polja!");
         }
         else
         {     
+            int idRadnika = Integer.parseInt(ID_radnika_dodavanje.getText().trim());
+            int brojOvakvihRadnika = 0;
+            
+            for(int i = 0; i < radnici.size(); i++)
+            {
+                if(radnici.get(i).getId() == idRadnika)
+                    brojOvakvihRadnika++;
+            }
+            
+            if(brojOvakvihRadnika == 0)
+            {
+            int posao = izbor_Posla.getSelectedIndex();
             String imeRadnika = ime_radnika_dodavanje.getText().trim();
             String prezimeRadnika = prezime_radnika_dodavanje.getText().trim();
-            int idRadnika = Integer.parseInt(ID_radnika_dodavanje.getText().trim());
-            int posao = izbor_Posla.getSelectedIndex();
             Posao izabraniPosao = poslovi.get(posao);
             
             Radnik radnik = new Radnik(imeRadnika, prezimeRadnika, idRadnika, izabraniPosao);
             
             
             radnici.add(radnik);
-            JOptionPane.showMessageDialog(null, radnici.get(0).getIme());
             Datoteke.upisiRadnika(radnici);
+            JOptionPane.showMessageDialog(null, "Uspesno sacuvano!");
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Radnik sa ovakvim ID brojem vec postoji!");
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -173,6 +204,24 @@ public final class Dodaj_radnika extends Glavna_Forma_Izmena {
     private void izbor_PoslaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_izbor_PoslaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_izbor_PoslaActionPerformed
+
+    private void ime_radnika_dodavanjeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ime_radnika_dodavanjeKeyTyped
+        char t = evt.getKeyChar();
+         if(!(Character.isAlphabetic(t)))
+             evt.consume(); 
+    }//GEN-LAST:event_ime_radnika_dodavanjeKeyTyped
+
+    private void prezime_radnika_dodavanjeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_prezime_radnika_dodavanjeKeyTyped
+       char t = evt.getKeyChar();
+         if(!(Character.isAlphabetic(t)))
+             evt.consume(); 
+    }//GEN-LAST:event_prezime_radnika_dodavanjeKeyTyped
+
+    private void ID_radnika_dodavanjeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ID_radnika_dodavanjeKeyTyped
+        char t = evt.getKeyChar();
+         if(!(Character.isDigit(t)))
+             evt.consume(); 
+    }//GEN-LAST:event_ID_radnika_dodavanjeKeyTyped
 
     /**
      * @param args the command line arguments

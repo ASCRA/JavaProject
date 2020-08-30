@@ -9,40 +9,46 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import projektni.zadatak.Klase.Datoteke;
 import KlaseOsoba.Radnik;
-import projektni.zadatak.Klase.Dolazak_Radnika;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import KlaseOsoba.Dolazak_Radnika;
+import java.time.Duration;
+import javax.swing.JOptionPane;
 
 
 public class Mesecni_Izvod extends javax.swing.JFrame {
 
     DefaultTableModel model;
+    ArrayList<Dolazak_Radnika> sviDolasci;
     ArrayList<Radnik> radnici;
-    ArrayList<Dolazak_Radnika> pristutniRadnici;
+    public static String izabraniMesec;
     
     public Mesecni_Izvod() {
         initComponents();
         this.setLocationRelativeTo(null);
         model = (DefaultTableModel) tabela.getModel();
+        sviDolasci = Datoteke.citaj_iz_velike();
         radnici = Datoteke.ucitajRadnike();
-        pristutniRadnici = Datoteke.citaj_iz_dnevne();
-
-        for(int i = 0; i < pristutniRadnici.size(); i++)
-        {
-            model.setColumnCount(radnici.size());
-            model.insertRow(model.getRowCount(), new Object [] {pristutniRadnici.get(i).getRadnik().getId(), 
-                                                                pristutniRadnici.get(i).getRadnik().getIme(), 
-                                                                pristutniRadnici.get(i).getRadnik().getPrezime(), 
-                                                                pristutniRadnici.get(i).getRadnik().getPosao().getNaziv(),
-                                                                pristutniRadnici.get(i).getVreme_prijave()});
-        }
-       
         
-//        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
-//            @Override
-//            public void mouseClicked(java.awt.event.MouseEvent evt) {
-//                int row = tabela.rowAtPoint(evt.getPoint());
-//                id_radnika_text.setText(String.valueOf(pristutniRadnici.get(row).getRadnik().getId()));
-//            }
-//        });
+        for(int i = 0; i < radnici.size(); i++)
+        {
+            model.insertRow(model.getRowCount(), new Object [] {radnici.get(i).getId(), 
+                                                                radnici.get(i).getIme(), 
+                                                                radnici.get(i).getPrezime(), 
+                                                                radnici.get(i).getPosao().getNaziv(),
+                                                                obracunajRadneSate(radnici.get(i))});
+        }
+    }
+    public long obracunajRadneSate(Radnik radnik){
+        long ukupanBrSati = 0;
+        for(int i = 0; i < sviDolasci.size(); i++)
+        {
+            if(sviDolasci.get(i).getRadnik().getId() == radnik.getId())
+            {
+                ukupanBrSati += sviDolasci.get(i).obracunajMesec(Integer.parseInt(izabraniMesec));
+            }
+        }
+        return ukupanBrSati;
     }
 
     @SuppressWarnings("unchecked")
@@ -59,16 +65,26 @@ public class Mesecni_Izvod extends javax.swing.JFrame {
 
             },
             new String [] {
-
+                "ID", "Ime", "Prezime", "Posao", "Broj radnih sati", "Kvota", "Dodatak/Smanjenje"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tabela);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 793, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -82,6 +98,7 @@ public class Mesecni_Izvod extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        izabraniMesec = args[0];
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

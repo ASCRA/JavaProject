@@ -1,6 +1,7 @@
 
 package projektni.zadatak.Klase;
 
+import KlaseOsoba.Dolazak_Radnika;
 import KlaseOsoba.Radnik;
 import java.io.*;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public abstract class Datoteke {
         }
         catch(IOException e)
         {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            e.printStackTrace();
         }
         
         return poslovi;
@@ -72,7 +73,7 @@ public abstract class Datoteke {
         }
         catch(IOException e)
         {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            e.printStackTrace();
         }
         return radnici;
     }
@@ -91,7 +92,7 @@ public abstract class Datoteke {
             
             izlazniFajl.close();
             
-            JOptionPane.showMessageDialog(null, "Uspesno sacuvano!");
+            
         }
         catch(IOException e)
         {
@@ -113,7 +114,7 @@ public abstract class Datoteke {
             
             izlazniFajl.close();
             
-            JOptionPane.showMessageDialog(null, "Uspesno sacuvano!");
+            
         }
         catch(IOException e)
         {
@@ -181,7 +182,7 @@ public abstract class Datoteke {
     {
         try
         {
-            FileOutputStream fajl = new FileOutputStream("MesecnaBaza.dat");
+            FileOutputStream fajl = new FileOutputStream("VelikaBaza.dat");
             ObjectOutputStream izlazniFajl = new ObjectOutputStream(fajl);
             
             for(int i = 0; i < prisutniRadnici.size(); i++)
@@ -198,24 +199,38 @@ public abstract class Datoteke {
         }
     }
     
-        public static void citaj_iz_velike(ArrayList<Dolazak_Radnika> prisutniRadnici)
+    public static ArrayList<Dolazak_Radnika> citaj_iz_velike()
     {
+        ArrayList<Dolazak_Radnika> prisutniRadnici = new ArrayList<>();
         try
         {
-            FileOutputStream fajl = new FileOutputStream("MesecnaBaza.dat");
-            ObjectOutputStream izlazniFajl = new ObjectOutputStream(fajl);
+            FileInputStream fajl = new FileInputStream("VelikaBaza.dat");
+            ObjectInputStream ulazniFajl = new ObjectInputStream(fajl);
             
-            for(int i = 0; i < prisutniRadnici.size(); i++)
+            boolean endOfFile = false;
+            
+            while (!endOfFile)
             {
-                izlazniFajl.writeObject(prisutniRadnici.get(i));
+                try
+                {    
+                     prisutniRadnici.add((Dolazak_Radnika) ulazniFajl.readObject());
+                }
+                catch (EOFException e)
+                {
+                    endOfFile = true;
+                }
+                catch (Exception f)
+                {
+                    JOptionPane.showMessageDialog(null, f.getMessage());
+                }
             }
-            izlazniFajl.close();
             
-           
+            ulazniFajl.close();
         }
         catch(IOException e)
         {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+        return prisutniRadnici;
     }
 }
