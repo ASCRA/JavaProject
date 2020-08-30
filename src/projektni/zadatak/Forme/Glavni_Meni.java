@@ -29,18 +29,6 @@ public final class Glavni_Meni extends Glavna_Forma {
         izlaznoDugme.setIcon(PomocneFunkcije.Podesi_Sliku("./src/slike/odjavi.png",30,30));
     }
     
-    public ArrayList<Dolazak_Radnika> filtrirajPrisutne(ArrayList<Dolazak_Radnika> svi_radnici){
-        ArrayList<Dolazak_Radnika> prisutni_radnici = new ArrayList<>();
-        Date danasnjiDatum = new Date();
-        
-        for(int i = 0; i < svi_radnici.size(); i++)
-        {
-            if(svi_radnici.get(i).obracunajDan() == danasnjiDatum.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfMonth())
-                prisutni_radnici.add(svi_radnici.get(i));
-        }
-        return prisutni_radnici;
-    }
-    
         @Override
     public void ucitaj_podatke(){
         super.ucitaj_podatke();
@@ -224,7 +212,8 @@ public final class Glavni_Meni extends Glavna_Forma {
             {
                 if((uneseniRadnik.getId() == sviDolasci.get(i).getRadnik().getId()))
                 {
-                    if(sviDolasci.get(i).getDatum_dolaska() == datum)
+                    if(sviDolasci.get(i).getDatum_dolaska().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfYear() == datum.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfYear() && 
+                       sviDolasci.get(i).getDatum_dolaska().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear() == datum.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear())
                     {
                         vecUnesen = true;
                         break;
@@ -307,8 +296,8 @@ public final class Glavni_Meni extends Glavna_Forma {
             {
                 if(id == sviDolasci.get(i).getRadnik().getId())
                 {
-                    if((sviDolasci.get(i).getDatum_dolaska().toInstant().atZone(ZoneId.systemDefault()).getDayOfMonth() == datum.toInstant().atZone(ZoneId.systemDefault()).getDayOfMonth()) &&
-                       (sviDolasci.get(i).getDatum_dolaska().toInstant().atZone(ZoneId.systemDefault()).getMonthValue() == datum.toInstant().atZone(ZoneId.systemDefault()).getMonthValue())    )
+                    if(sviDolasci.get(i).getDatum_dolaska().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfYear() == datum.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfYear() && 
+                       sviDolasci.get(i).getDatum_dolaska().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear() == datum.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear())
                     {
                         if(sviDolasci.get(i).getVreme_odjave()!=null)
                         {

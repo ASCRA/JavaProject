@@ -5,13 +5,10 @@
  */
 package FormeIzvoda;
 
-import java.util.ArrayList;
+import java.util.*;
 import javax.swing.table.*;
 import projektni.zadatak.Klase.Datoteke;
 import KlaseOsoba.*;
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.Date;
 import javax.swing.SwingConstants;
 
 public class Mesecni_Izvod extends javax.swing.JFrame {
@@ -22,10 +19,8 @@ public class Mesecni_Izvod extends javax.swing.JFrame {
     public static String izabraniMesec;
     Date datum = new Date();
     
-    public Mesecni_Izvod() {
-        
+    public Mesecni_Izvod() {  
         initComponents();
-        this.setLocationRelativeTo(null);
         model = (DefaultTableModel) tabela.getModel();
         sviDolasci = Datoteke.citaj_iz_velike();
         radnici = Datoteke.ucitajRadnike();
@@ -37,6 +32,7 @@ public class Mesecni_Izvod extends javax.swing.JFrame {
                                                                 radnici.get(i).getIme(), 
                                                                 radnici.get(i).getPrezime(), 
                                                                 radnici.get(i).getPosao().getNaziv(),
+                                                                obracunajRadneSate(radnici.get(i)),
                                                                 radnici.get(i).getPosao().obracunajMesecnuKvotu(Integer.parseInt(izabraniMesec))});
         }
         
@@ -46,7 +42,7 @@ public class Mesecni_Izvod extends javax.swing.JFrame {
         {
             tabela.getColumnModel().getColumn(i).setCellRenderer(render);
         }
-        
+        this.setLocationRelativeTo(null);
     }
     public long obracunajRadneSate(Radnik radnik){
         long ukupanBrSati = 0;
