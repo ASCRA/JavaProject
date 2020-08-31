@@ -48,6 +48,7 @@ public final class Glavni_Meni extends Glavna_Forma {
   
     
     public Radnik nadjiRadnika(int id){
+        radnici = Datoteke.ucitajRadnike();
         boolean postojiRadnik = false;
         int trazeniID = 0;
         Radnik radnik = null;
@@ -331,7 +332,7 @@ public final class Glavni_Meni extends Glavna_Forma {
             }
             else
             {
-                JOptionPane.showMessageDialog(null, "Radnik je trenutno prisutan, mozete ga samo odjaviti");
+                JOptionPane.showMessageDialog(null, "Radnik se već odjavio!");
             }
     }//GEN-LAST:event_izlaznoDugmeActionPerformed
 

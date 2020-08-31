@@ -10,10 +10,15 @@ import KlaseOsoba.Radnik;
 import FormeIzvoda.Danasnji_Izvod;
 import FormeIzvoda.Mesecni_Izvod;
 import java.awt.Color;
+import java.awt.Component;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import projektni.zadatak.Klase.Datoteke;
 import java.util.*;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.*;
 import projektni.zadatak.Klase.*;
 /**
@@ -24,29 +29,82 @@ public class Radnici_Meni extends javax.swing.JFrame {
 
     DefaultTableModel model;
     ArrayList<Radnik> radnici;
-    ArrayList<Dolazak_Radnika> pristutniRadnici;
+    ArrayList<Dolazak_Radnika> sviDolasci;
+    ArrayList<Radnik> sortirani_radnici;
+    int brojPrisutnih = 0;
             
     public Radnici_Meni() {
         initComponents();
         this.setLocationRelativeTo(null);
         model = (DefaultTableModel) tabela.getModel();
         radnici = Datoteke.ucitajRadnike();
-        pristutniRadnici = Datoteke.citaj_iz_dnevne();
-
-        for(int i = 0; i < pristutniRadnici.size(); i++)
-        model.insertRow(model.getRowCount(), new Object [] {pristutniRadnici.get(i).getRadnik().getId(), 
-                                                                pristutniRadnici.get(i).getRadnik().getIme(), 
-                                                                pristutniRadnici.get(i).getRadnik().getPrezime(), 
-                                                                pristutniRadnici.get(i).getRadnik().getPosao().getNaziv(),
-                                                                pristutniRadnici.get(i).getVreme_prijave()});
+        sviDolasci = Datoteke.citaj_iz_velike();
+        sortirani_radnici = nadjiPrisutne(sviDolasci, radnici);
+        for(int i = 0; i < sortirani_radnici.size(); i++)
+        model.insertRow(model.getRowCount(), new Object [] {sortirani_radnici.get(i).getId(), 
+                                                                sortirani_radnici.get(i).getIme(), 
+                                                                sortirani_radnici.get(i).getPrezime(), 
+                                                                sortirani_radnici.get(i).getPosao().getNaziv()});
         
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 int row = tabela.rowAtPoint(evt.getPoint());
-                id_radnika_text.setText(String.valueOf(pristutniRadnici.get(row).getRadnik().getId()));
+                id_radnika_text.setText(String.valueOf(radnici.get(row).getId()));
             }
         });
+        tabela.setDefaultRenderer(Object.class, new TableCellRenderer(){
+        private DefaultTableCellRenderer DEFAULT_RENDERER =  new DefaultTableCellRenderer();
+
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component c = DEFAULT_RENDERER.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                    c.setBackground(row < brojPrisutnih ? Color.GREEN : Color.WHITE);
+                return c;
+            }
+        });
+    }
+    
+    public ArrayList<Radnik> nadjiPrisutne(ArrayList<Dolazak_Radnika> sviDolasci, ArrayList<Radnik> radnici){
+        ArrayList<Radnik> prisutni = new ArrayList<>();
+        ArrayList<Radnik> sortirani = new ArrayList<>();
+        
+        for(int i = 0; i < sviDolasci.size(); i++)
+        {
+            if(sviDolasci.get(i).getDatum_dolaska().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().compareTo(LocalDate.now()) == 0)
+            {
+                prisutni.add(sviDolasci.get(i).getRadnik());
+            }
+        }
+        
+        for(int i = 0; i < radnici.size(); i++)
+        {
+            for(int j = 0; j < prisutni.size(); j++)
+            {
+                if(prisutni.get(j).getId() == radnici.get(i).getId())
+                {
+                    sortirani.add(radnici.get(i));
+                    break;
+                }
+            }
+        }
+        brojPrisutnih = sortirani.size();
+        for(int i = 0; i < radnici.size(); i++)
+        {
+            int brojac = 0;
+            for(int j = 0; j < sortirani.size(); j++)
+            {
+                if(radnici.get(i).getId() != sortirani.get(j).getId())
+                {
+                    brojac++;
+                }
+            }
+            if(brojac==sortirani.size())
+            {
+                sortirani.add(radnici.get(i));
+            }
+        }
+        return sortirani;
     }
     
    
