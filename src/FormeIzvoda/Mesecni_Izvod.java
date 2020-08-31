@@ -6,15 +6,13 @@
 package FormeIzvoda;
 
 import java.util.ArrayList;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.*;
 import projektni.zadatak.Klase.Datoteke;
-import KlaseOsoba.Radnik;
+import KlaseOsoba.*;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import KlaseOsoba.Dolazak_Radnika;
-import java.time.Duration;
-import javax.swing.JOptionPane;
-
+import java.time.Month;
+import java.util.Date;
+import javax.swing.SwingConstants;
 
 public class Mesecni_Izvod extends javax.swing.JFrame {
 
@@ -22,13 +20,16 @@ public class Mesecni_Izvod extends javax.swing.JFrame {
     ArrayList<Dolazak_Radnika> sviDolasci;
     ArrayList<Radnik> radnici;
     public static String izabraniMesec;
+    Date datum = new Date();
     
     public Mesecni_Izvod() {
+        
         initComponents();
         this.setLocationRelativeTo(null);
         model = (DefaultTableModel) tabela.getModel();
         sviDolasci = Datoteke.citaj_iz_velike();
         radnici = Datoteke.ucitajRadnike();
+        
         
         for(int i = 0; i < radnici.size(); i++)
         {
@@ -36,8 +37,17 @@ public class Mesecni_Izvod extends javax.swing.JFrame {
                                                                 radnici.get(i).getIme(), 
                                                                 radnici.get(i).getPrezime(), 
                                                                 radnici.get(i).getPosao().getNaziv(),
-                                                                obracunajRadneSate(radnici.get(i))});
+                                                                obracunajRadneSate(radnici.get(i)),
+                                                                radnici.get(i).getPosao().obracunajMesecnuKvotu(LocalDate.now().getMonth())});
         }
+        
+        DefaultTableCellRenderer render = new DefaultTableCellRenderer();
+        render.setHorizontalAlignment( SwingConstants.LEFT );
+        for(int i = 0; i < tabela.getColumnCount(); i++)
+        {
+            tabela.getColumnModel().getColumn(i).setCellRenderer(render);
+        }
+        
     }
     public long obracunajRadneSate(Radnik radnik){
         long ukupanBrSati = 0;
@@ -94,9 +104,6 @@ public class Mesecni_Izvod extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         izabraniMesec = args[0];
         /* Set the Nimbus look and feel */

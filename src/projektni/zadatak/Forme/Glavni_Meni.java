@@ -3,15 +3,11 @@ package projektni.zadatak.Forme;
 
 import FormeIzmena.*;
 import KlaseOsoba.*;
-import java.io.IOException;
-import java.nio.file.*;
 import projektni.zadatak.Klase.Datoteke;
 import java.text.*;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.*;
-import java.util.logging.*;
 import javax.swing.JOptionPane;
 import projektni.zadatak.Klase.*;
 
@@ -27,7 +23,7 @@ public final class Glavni_Meni extends Glavna_Forma {
     public Glavni_Meni() {
         initComponents();
         ucitaj_podatke();
-        
+        this.setLocationRelativeTo(null);
         sviDolasci = Datoteke.citaj_iz_velike();
         ulaznoDugme.setIcon(PomocneFunkcije.Podesi_Sliku("./src/slike/prijavi.png",30,30));
         izlaznoDugme.setIcon(PomocneFunkcije.Podesi_Sliku("./src/slike/odjavi.png",30,30));

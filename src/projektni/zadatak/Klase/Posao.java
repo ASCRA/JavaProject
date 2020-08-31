@@ -1,8 +1,13 @@
 
 package projektni.zadatak.Klase;
 import java.io.*;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 
 public class Posao implements Serializable{
+    
     private int id;
     private double plata;
     private String naziv;
@@ -56,6 +61,13 @@ public class Posao implements Serializable{
     public void setVremeOdlaska(String VremeOdlaska) {
         this.VremeOdlaska = VremeOdlaska;
     }
-
     
+    public long obracunajMesecnuKvotu(Month mesec)
+    {
+        long brojSati = Duration.between(LocalTime.parse(this.vremeDolaska), LocalTime.parse(this.VremeOdlaska)).toHours();
+        long brojDana = mesec.length(false);
+        long ukupanRad = brojSati*brojDana;
+        
+        return ukupanRad;
+    }
 }
