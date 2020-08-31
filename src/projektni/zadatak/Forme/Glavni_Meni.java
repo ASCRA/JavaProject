@@ -1,26 +1,24 @@
 
 package projektni.zadatak.Forme;
 
-import KlaseOsoba.Radnik;
-import FormeIzmena.Dodaj_posao;
-import FormeIzmena.Izmeni_radnika;
-import FormeIzmena.Dodaj_radnika;
-import FormeIzmena.Izmeni_posao;
+import FormeIzmena.*;
+import KlaseOsoba.*;
+import java.io.IOException;
+import java.nio.file.*;
 import projektni.zadatak.Klase.Datoteke;
 import java.text.*;
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.time.ZoneId;
 import java.util.*;
+import java.util.logging.*;
 import javax.swing.JOptionPane;
 import projektni.zadatak.Klase.*;
 
 
-public class Glavni_Meni extends javax.swing.JFrame {
+public final class Glavni_Meni extends Glavna_Forma {
             
-        ArrayList<Radnik> radnici;
-        ArrayList<Posao> poslovi;
-        ArrayList<Dolazak_Radnika> prisutniRadnici;
+        ArrayList<Dolazak_Radnika> sviDolasci;
         DateFormat format_vreme = new SimpleDateFormat("HH:mm");
         DateFormat format_datum = new SimpleDateFormat("dd/MM/yyyy");
         Date datum = new Date();
@@ -28,9 +26,28 @@ public class Glavni_Meni extends javax.swing.JFrame {
         
     public Glavni_Meni() {
         initComponents();
+        ucitaj_podatke();
         
+        sviDolasci = Datoteke.citaj_iz_velike();
         ulaznoDugme.setIcon(PomocneFunkcije.Podesi_Sliku("./src/slike/prijavi.png",30,30));
         izlaznoDugme.setIcon(PomocneFunkcije.Podesi_Sliku("./src/slike/odjavi.png",30,30));
+    }
+    
+    public ArrayList<Dolazak_Radnika> filtrirajPrisutne(ArrayList<Dolazak_Radnika> svi_radnici){
+        ArrayList<Dolazak_Radnika> prisutni_radnici = new ArrayList<>();
+        Date danasnjiDatum = new Date();
+        
+        for(int i = 0; i < svi_radnici.size(); i++)
+        {
+            if(svi_radnici.get(i).obracunajDan() == danasnjiDatum.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfMonth())
+                prisutni_radnici.add(svi_radnici.get(i));
+        }
+        return prisutni_radnici;
+    }
+    
+        @Override
+    public void ucitaj_podatke(){
+        super.ucitaj_podatke();
     }
   
     
@@ -201,41 +218,34 @@ public class Glavni_Meni extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ulaznoDugmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ulaznoDugmeActionPerformed
-        radnici = Datoteke.ucitajRadnike();
-        prisutniRadnici = Datoteke.citaj_iz_dnevne();
-        
-        int id = Integer.parseInt(kod.getText().trim());
-        Radnik uneseniRadnik = nadjiRadnika(id);
-        
-        if(uneseniRadnik==null)
-        {
-            JOptionPane.showMessageDialog(null, "Uneseni radnik ne postoji!");
-        }
-        
-        else
-        {
+            sviDolasci = Datoteke.citaj_iz_velike();
+            int id = Integer.parseInt(kod.getText().trim());
+            Radnik uneseniRadnik = nadjiRadnika(id);
+
             boolean vecUnesen = false;
-            for(int i = 0; i < prisutniRadnici.size(); i++)
+            for(int i = 0; i < sviDolasci.size(); i++)
             {
-                if(uneseniRadnik.getId() == prisutniRadnici.get(i).getRadnik().getId())
+                if((uneseniRadnik.getId() == sviDolasci.get(i).getRadnik().getId()))
                 {
-                    vecUnesen = true;
-                    break;
+                    if(sviDolasci.get(i).getDatum_dolaska() == datum)
+                    {
+                        vecUnesen = true;
+                        break;
+                    }                    
                 }
             }
             
             if(vecUnesen == false)
             {
                 Dolazak_Radnika prisutniRadnik = new Dolazak_Radnika(uneseniRadnik, datum, LocalTime.now());
-                prisutniRadnici.add(prisutniRadnik);
-                Datoteke.upisi_u_dnevnu(prisutniRadnici);
+                sviDolasci.add(prisutniRadnik);
+                Datoteke.upisi_u_veliku(sviDolasci);
                 JOptionPane.showMessageDialog(null, "Uspesno ste prijavili radnika!");
             }
             else
             {
                 JOptionPane.showMessageDialog(null, "Radnik je trenutno prisutan, mozete ga samo odjaviti");
             }
-        }
         
     }//GEN-LAST:event_ulaznoDugmeActionPerformed
 
@@ -248,7 +258,15 @@ public class Glavni_Meni extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu2ActionPerformed
 
     private void DodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DodajActionPerformed
-        new Dodaj_radnika().setVisible(true);
+        poslovi = Datoteke.ucitajPoslove();
+        if(poslovi.isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "Dodajte prvo posao da bi dodali radnika!");
+        }
+        else
+        {
+            new Dodaj_radnika().setVisible(true);
+        }
     }//GEN-LAST:event_DodajActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -256,52 +274,69 @@ public class Glavni_Meni extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void IzmeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IzmeniActionPerformed
-        new Izmeni_radnika().setVisible(true);
+        radnici = Datoteke.ucitajRadnike();
+        if(radnici.isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "Dodajte prvo radnika da bi ste menjali radnike!");
+        }
+        else
+        {
+            new Izmeni_radnika().setVisible(true);
+        }
     }//GEN-LAST:event_IzmeniActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        new Izmeni_posao().setVisible(true);
+        poslovi = Datoteke.ucitajPoslove();
+        if(poslovi.isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "Dodajte prvo posao da bi ste menjali poslove!");
+        }
+        else
+        {
+            new Izmeni_posao().setVisible(true);
+        }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void izlaznoDugmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_izlaznoDugmeActionPerformed
-        radnici = Datoteke.ucitajRadnike();
-        prisutniRadnici = Datoteke.citaj_iz_dnevne();
-        
-        int id = Integer.parseInt(kod.getText().trim());
-        Radnik uneseniRadnik = nadjiRadnika(id);
-        
-        if(uneseniRadnik==null)
-        {
-            JOptionPane.showMessageDialog(null, "Uneseni radnik ne postoji!");
-        }
-        
-        else
-        {
-            boolean prisutan = false;
-            int prisutni_radnik_id = 0;
-            for(int i = 0; i < prisutniRadnici.size(); i++)
+
+            sviDolasci = Datoteke.citaj_iz_velike();
+            int id = Integer.parseInt(kod.getText().trim());
+            Radnik uneseniRadnik = nadjiRadnika(id);
+
+            boolean vecOtpisan = false;
+            int potrebniRadnik = 0;
+
+            for(int i = 0; i < sviDolasci.size(); i++)
             {
-                if(uneseniRadnik.getId() == prisutniRadnici.get(i).getRadnik().getId())
+                if(id == sviDolasci.get(i).getRadnik().getId())
                 {
-                    prisutan = true;
-                    prisutni_radnik_id = i;
-                    break;
+                    if((sviDolasci.get(i).getDatum_dolaska().toInstant().atZone(ZoneId.systemDefault()).getDayOfMonth() == datum.toInstant().atZone(ZoneId.systemDefault()).getDayOfMonth()) &&
+                       (sviDolasci.get(i).getDatum_dolaska().toInstant().atZone(ZoneId.systemDefault()).getMonthValue() == datum.toInstant().atZone(ZoneId.systemDefault()).getMonthValue())    )
+                    {
+                        if(sviDolasci.get(i).getVreme_odjave()!=null)
+                        {
+                            vecOtpisan = true;
+                            break;
+                        }
+                        else
+                        {
+                            potrebniRadnik = i;
+                            break;
+                        }
+                    }
                 }
             }
             
-            if(prisutan == true)
+            if(!vecOtpisan)
             {
-               
-                prisutniRadnici.get(prisutni_radnik_id).setVreme_odjave(format_vreme.format(datum));
-                Datoteke.upisi_u_dnevnu(prisutniRadnici);
-                Datoteke.upisi_u_veliku(prisutniRadnici);
+                sviDolasci.get(potrebniRadnik).setVreme_odjave(LocalTime.now());
+                Datoteke.upisi_u_veliku(sviDolasci);
                 JOptionPane.showMessageDialog(null, "Uspesno ste odjavili radnika!");
             }
             else
             {
-                JOptionPane.showMessageDialog(null, "Radnik nije trenutno prijavljen, samo ga mozete odjaviti");
+                JOptionPane.showMessageDialog(null, "Radnik je trenutno prisutan, mozete ga samo odjaviti");
             }
-        }
     }//GEN-LAST:event_izlaznoDugmeActionPerformed
 
     /**

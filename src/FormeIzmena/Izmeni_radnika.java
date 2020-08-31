@@ -26,10 +26,14 @@ public class Izmeni_radnika extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         radnici = Datoteke.ucitajRadnike();
         poslovi = Datoteke.ucitajPoslove();
-        
-        izbor_posla.setSelectedIndex(0);
-        izbor_radnika.setSelectedIndex(0);
         popuniListu();
+        izbor_radnika.setSelectedIndex(0);
+        for(int i = 0; i < poslovi.size(); i++)
+        {
+            if(poslovi.get(i).getId() == radnici.get(izbor_radnika.getSelectedIndex()).getPosao().getId())
+                izbor_posla.setSelectedIndex(i);
+        }
+        
     }
     
     public void popuniListu(){
@@ -228,16 +232,26 @@ public class Izmeni_radnika extends javax.swing.JFrame {
     }//GEN-LAST:event_izbor_radnikaActionPerformed
 
     private void izmeni_radnika_dugmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_izmeni_radnika_dugmeActionPerformed
-        
+        radnici = Datoteke.ucitajRadnike();
        if(ime_radnika_dodavanje.getText().isEmpty() || prezime_radnika_dodavanje.getText().isEmpty() || ID_radnika_dodavanje.getText().isEmpty())
         {
             JOptionPane.showMessageDialog(null, "Popunite sva polja!");
         }
         else
         {     
+            int idRadnika = Integer.parseInt(ID_radnika_dodavanje.getText().trim());
+            int brojOvakvihRadnika = 0;
+            
+            for(int i = 0; i < radnici.size(); i++)
+            {
+                if(radnici.get(i).getId() == idRadnika && radnici.get(izbor_radnika.getSelectedIndex()).getId() != idRadnika)
+                    brojOvakvihRadnika++;
+            }
+            
+            if(brojOvakvihRadnika == 0)
+            {
             String imeRadnika = ime_radnika_dodavanje.getText().trim();
             String prezimeRadnika = prezime_radnika_dodavanje.getText().trim();
-            int idRadnika = Integer.parseInt(ID_radnika_dodavanje.getText().trim());
             int posao = izbor_posla.getSelectedIndex();
             Posao izabraniPosao = poslovi.get(posao);
             
@@ -247,6 +261,12 @@ public class Izmeni_radnika extends javax.swing.JFrame {
             radnici.get(izbor_radnika.getSelectedIndex()).setPosao(izabraniPosao);
             
             upisiRadnika();
+            JOptionPane.showMessageDialog(null, "Uspesno sacuvano!");
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Radnik sa ovim ID brojem vec postoji!");
+            }
         }               
         
     }//GEN-LAST:event_izmeni_radnika_dugmeActionPerformed

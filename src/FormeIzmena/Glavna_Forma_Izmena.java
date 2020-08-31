@@ -8,24 +8,14 @@ package FormeIzmena;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import projektni.zadatak.Klase.Datoteke;
-import projektni.zadatak.Klase.Dolazak_Radnika;
+import KlaseOsoba.Dolazak_Radnika;
 import projektni.zadatak.Klase.Posao;
 import KlaseOsoba.Radnik;
-
 /**
  *
  * @author risti
  */
-public abstract class Glavna_Forma_Izmena extends javax.swing.JFrame {
-
-    ArrayList<Radnik> radnici;
-    ArrayList<Posao> poslovi;
-    ArrayList<Dolazak_Radnika> prisutniRadnici;
-    
-    public void ucitaj_podatke(){
-        radnici = Datoteke.ucitajRadnike();
-        poslovi = Datoteke.ucitajPoslove();
-    }
+public abstract class Glavna_Forma_Izmena extends Glavna_Forma {
     
     public DefaultComboBoxModel popuni_listu_poslova(){
         ucitaj_podatke();

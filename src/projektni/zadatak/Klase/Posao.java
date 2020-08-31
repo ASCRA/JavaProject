@@ -3,16 +3,26 @@ package projektni.zadatak.Klase;
 import java.io.*;
 
 public class Posao implements Serializable{
+    private int id;
     private double plata;
     private String naziv;
     private String vremeDolaska;
     private String VremeOdlaska;
 
-    public Posao(double plata, String naziv, String vremeDolaska, String VremeOdlaska) {
+    public Posao(int id, double plata, String naziv, String vremeDolaska, String VremeOdlaska) {
+        this.id = id;
         this.plata = plata;
         this.naziv = naziv;
         this.vremeDolaska = vremeDolaska;
         this.VremeOdlaska = VremeOdlaska;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public double getPlata() {
