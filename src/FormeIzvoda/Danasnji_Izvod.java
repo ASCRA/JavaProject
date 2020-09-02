@@ -6,37 +6,43 @@
 package FormeIzvoda;
 
 import KlaseOsoba.Dolazak_Radnika;
+import KlaseOsoba.Radnik;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import projektni.zadatak.Klase.*;
 
 
 public class Danasnji_Izvod extends javax.swing.JFrame {
 
+    ArrayList<Radnik> radnici;
     public static String id_radnika;
-    ArrayList<Dolazak_Radnika> pristutniRadnici;
-    Dolazak_Radnika radnik;
+    int id = Integer.parseInt(id_radnika)-1;
     
     public Danasnji_Izvod() {
         initComponents();
         this.setLocationRelativeTo(null);
-        radnik = pronadjiRadnika(id_radnika);
+        radnici = Datoteke.ucitajRadnike();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         
-        jTextField1.setText(radnik.getRadnik().getIme());
-        jTextField2.setText(radnik.getRadnik().getPrezime());
-        jTextField3.setText(String.valueOf(radnik.getRadnik().getId()));
-        jTextField4.setText(radnik.getRadnik().getPosao().getNaziv());
-        jTextField5.setText(formatter.format(radnik.getVreme_prijave()));
-        jTextField6.setText(formatter.format(radnik.getVreme_odjave()));
-        jTextField7.setText(radnik.getRadnik().getPosao().getVremeDolaska());
-        long elapsedMinutes = Duration.between(LocalTime.parse(radnik.getRadnik().getPosao().getVremeDolaska()), radnik.getVreme_prijave()).toMinutes();
+        jTextField1.setText(radnici.get(id).getIme());
+        jTextField2.setText(radnici.get(id).getPrezime());
+        jTextField3.setText(String.valueOf(radnici.get(id).getId()));
+        jTextField4.setText(radnici.get(id).getPosao().getNaziv());
+        jTextField5.setText(formatter.format(pronadjiPrisustvo(radnici.get(id)).getVreme_prijave()));
+        jTextField6.setText(formatter.format(pronadjiPrisustvo(radnici.get(id)).getVreme_odjave()));
+        jTextField7.setText(radnici.get(id).getPosao().getVremeDolaska());
+        
+        long elapsedMinutes = Duration.between(LocalTime.parse(radnici.get(id).getPosao().getVremeDolaska()), pronadjiPrisustvo(radnici.get(id)).getVreme_prijave()).toMinutes();
         long sati = elapsedMinutes/60;
         long minuti = elapsedMinutes-sati*60;
-        if(sati<=0)
+        if(Math.abs(sati)<=0)
         {
         jTextField8.setText(String.valueOf(minuti));
         }
@@ -46,25 +52,34 @@ public class Danasnji_Izvod extends javax.swing.JFrame {
         }
     }
 
-    public Dolazak_Radnika pronadjiRadnika(String id_radnika)
+    public Dolazak_Radnika pronadjiPrisustvo(Radnik radnik)
     {
-        pristutniRadnici = Datoteke.citaj_iz_dnevne();
-        boolean nadjenRadnik = false;
+        ArrayList<Dolazak_Radnika> sviDolasci;
+        sviDolasci = Datoteke.citaj_iz_velike();
+        Calendar cal = Calendar.getInstance();
+        cal.set(0, 0, 0);
+        Date datum = new Date();
+        Dolazak_Radnika nijeDosao = new Dolazak_Radnika(radnik, datum, LocalTime.parse("00:00"), LocalTime.parse("00:00"));
+        boolean nadjenDolazak = false;
         int trazeniID = 0;
-        for(int i = 0; i < pristutniRadnici.size(); i++)
+        
+        for(int i = 0; i < sviDolasci.size(); i++)
         {
-            if(Integer.parseInt(id_radnika) == pristutniRadnici.get(i).getRadnik().getId())
+            if(radnik.getId() == sviDolasci.get(i).getRadnik().getId())
             {
-                nadjenRadnik = true;
-                trazeniID = i;
+                if(sviDolasci.get(i).getDatum_dolaska().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().compareTo(LocalDate.now()) == 0)
+                {
+                    nadjenDolazak = true;
+                    trazeniID = i;
+                }
             }
         }
-        if(nadjenRadnik)
+        if(nadjenDolazak)
         {
-            return pristutniRadnici.get(trazeniID);
+            return sviDolasci.get(trazeniID);
         }
         else
-            return pristutniRadnici.get(trazeniID);
+            return nijeDosao;
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

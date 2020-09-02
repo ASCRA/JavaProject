@@ -122,62 +122,6 @@ public abstract class Datoteke {
         }
     }
     
-    public static void upisi_u_dnevnu(ArrayList<Dolazak_Radnika> prisutniRadnici)
-    {
-        try
-        {
-            FileOutputStream fajl = new FileOutputStream("DnevnaBaza.dat");
-            ObjectOutputStream izlazniFajl = new ObjectOutputStream(fajl);
-            
-            for(int i = 0; i < prisutniRadnici.size(); i++)
-            {
-                izlazniFajl.writeObject(prisutniRadnici.get(i));
-            }
-            izlazniFajl.close();
-            
-           
-        }
-        catch(IOException e)
-        {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-    }
-    
-    public static ArrayList<Dolazak_Radnika> citaj_iz_dnevne()
-    {
-        ArrayList<Dolazak_Radnika> prisutniRadnici = new ArrayList<>();
-        try
-        {
-            FileInputStream fajl = new FileInputStream("DnevnaBaza.dat");
-            ObjectInputStream ulazniFajl = new ObjectInputStream(fajl);
-            
-            boolean endOfFile = false;
-            
-            while (!endOfFile)
-            {
-                try
-                {    
-                     prisutniRadnici.add((Dolazak_Radnika) ulazniFajl.readObject());
-                }
-                catch (EOFException e)
-                {
-                    endOfFile = true;
-                }
-                catch (Exception f)
-                {
-                    JOptionPane.showMessageDialog(null, f.getMessage());
-                }
-            }
-            
-            ulazniFajl.close();
-        }
-        catch(IOException e)
-        {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        return prisutniRadnici;
-    }
-    
     public static void upisi_u_veliku(ArrayList<Dolazak_Radnika> prisutniRadnici)
     {
         try

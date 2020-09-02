@@ -3,9 +3,11 @@ package KlaseOsoba;
 
 import KlaseOsoba.Radnik;
 import java.io.Serializable;
+import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Dolazak_Radnika implements Serializable{
@@ -57,7 +59,8 @@ public class Dolazak_Radnika implements Serializable{
 
     public void setVreme_odjave(LocalTime vreme_odjave) {
         this.vreme_odjave = vreme_odjave;
-    }  
+    }
+    
     
     public long obracunajMesec(int zadatiMesec)
     {
@@ -70,9 +73,8 @@ public class Dolazak_Radnika implements Serializable{
         }
         return broj_radnih_sati;
     }
-    public int obracunajDan()
+    public long obracunajDan()
     {
-        int dan = this.datum_dolaska.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfMonth();
-        return dan;
+        return Duration.between(this.vreme_prijave, this.vreme_odjave).toMinutes()/60;
     }
 }
