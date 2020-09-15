@@ -16,26 +16,16 @@ import javax.swing.JOptionPane;
 
 public class Posao implements Serializable{
     
-    private int id;
     private double plata;
     private String naziv;
     private String vremeDolaska;
     private String VremeOdlaska;
 
-    public Posao(int id, double plata, String naziv, String vremeDolaska, String VremeOdlaska) {
-        this.id = id;
+    public Posao(double plata, String naziv, String vremeDolaska, String VremeOdlaska) {
         this.plata = plata;
         this.naziv = naziv;
         this.vremeDolaska = vremeDolaska;
         this.VremeOdlaska = VremeOdlaska;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public double getPlata() {

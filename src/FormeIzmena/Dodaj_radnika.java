@@ -16,7 +16,7 @@ public final class Dodaj_radnika extends Glavna_Forma_Izmena {
         initComponents();
         this.setLocationRelativeTo(null);
         ucitaj_podatke();
-        izbor_Posla.setModel(new javax.swing.DefaultComboBoxModel<>(PomocneFunkcije.popuniListuPoslova(poslovi)));
+        izbor_Posla.setModel(super.popuni_listu_poslova());
     }
     
     @Override
@@ -30,11 +30,9 @@ public final class Dodaj_radnika extends Glavna_Forma_Izmena {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         ime_radnika_dodavanje = new javax.swing.JTextField();
         prezime_radnika_dodavanje = new javax.swing.JTextField();
-        ID_radnika_dodavanje = new javax.swing.JTextField();
         izbor_Posla = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
@@ -44,8 +42,6 @@ public final class Dodaj_radnika extends Glavna_Forma_Izmena {
         jLabel1.setText("Ime:");
 
         jLabel2.setText("Prezime:");
-
-        jLabel3.setText("ID:");
 
         jLabel4.setText("Posao:");
 
@@ -75,14 +71,6 @@ public final class Dodaj_radnika extends Glavna_Forma_Izmena {
             }
         });
 
-        ID_radnika_dodavanje.setBackground(new java.awt.Color(224, 224, 249));
-        ID_radnika_dodavanje.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
-        ID_radnika_dodavanje.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                ID_radnika_dodavanjeKeyTyped(evt);
-            }
-        });
-
         izbor_Posla.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         izbor_Posla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,14 +96,12 @@ public final class Dodaj_radnika extends Glavna_Forma_Izmena {
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel3)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(ID_radnika_dodavanje)
                     .addComponent(prezime_radnika_dodavanje, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ime_radnika_dodavanje, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(izbor_Posla, 0, 121, Short.MAX_VALUE)
@@ -138,18 +124,14 @@ public final class Dodaj_radnika extends Glavna_Forma_Izmena {
                                 .addComponent(ime_radnika_dodavanje, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(prezime_radnika_dodavanje, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(ID_radnika_dodavanje, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(izbor_Posla, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(izbor_Posla, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -161,13 +143,13 @@ public final class Dodaj_radnika extends Glavna_Forma_Izmena {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         radnici = Datoteke.ucitajRadnike();
-        if(ime_radnika_dodavanje.getText().isEmpty() || prezime_radnika_dodavanje.getText().isEmpty() || ID_radnika_dodavanje.getText().isEmpty())
+        if(ime_radnika_dodavanje.getText().isEmpty() || prezime_radnika_dodavanje.getText().isEmpty())
         {
             JOptionPane.showMessageDialog(null, "Popunite sva polja!");
         }
         else
         {     
-            int idRadnika = Integer.parseInt(ID_radnika_dodavanje.getText().trim());
+            int idRadnika = radnici.size() + 1;
             int brojOvakvihRadnika = 0;
             
             for(int i = 0; i < radnici.size(); i++)
@@ -184,10 +166,10 @@ public final class Dodaj_radnika extends Glavna_Forma_Izmena {
             Posao izabraniPosao = poslovi.get(posao);
             
             Radnik radnik = new Radnik(imeRadnika, prezimeRadnika, idRadnika, izabraniPosao);
-            
+            radnik.setStatus(true);
             
             radnici.add(radnik);
-            Datoteke.upisiRadnika(radnici);
+            Datoteke.upisiRadnike(radnici);
             JOptionPane.showMessageDialog(null, "Uspesno sacuvano!");
             }
             else
@@ -216,12 +198,6 @@ public final class Dodaj_radnika extends Glavna_Forma_Izmena {
          if(!(Character.isAlphabetic(t)))
              evt.consume(); 
     }//GEN-LAST:event_prezime_radnika_dodavanjeKeyTyped
-
-    private void ID_radnika_dodavanjeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ID_radnika_dodavanjeKeyTyped
-        char t = evt.getKeyChar();
-         if(!(Character.isDigit(t)))
-             evt.consume(); 
-    }//GEN-LAST:event_ID_radnika_dodavanjeKeyTyped
 
     /**
      * @param args the command line arguments
@@ -259,13 +235,11 @@ public final class Dodaj_radnika extends Glavna_Forma_Izmena {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField ID_radnika_dodavanje;
     private javax.swing.JTextField ime_radnika_dodavanje;
     private javax.swing.JComboBox<String> izbor_Posla;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField prezime_radnika_dodavanje;

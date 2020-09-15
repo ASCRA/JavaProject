@@ -34,7 +34,6 @@
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jLabel5" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -54,7 +53,6 @@
                   <Component id="naziv_posla_dodavanje" alignment="0" max="32767" attributes="0"/>
                   <Component id="plata_posla_dodavanje" alignment="0" max="32767" attributes="0"/>
                   <Component id="izbor_posla" alignment="0" min="-2" pref="132" max="-2" attributes="0"/>
-                  <Component id="id_posla_dodavanje" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jSeparator2" min="-2" max="-2" attributes="0"/>
@@ -72,12 +70,7 @@
                           <Component id="izbor_posla" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                           <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="id_posla_dodavanje" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                          <Component id="jLabel5" alignment="3" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="naziv_posla_dodavanje" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                           <Component id="jLabel1" alignment="3" max="-2" attributes="0"/>
@@ -247,28 +240,6 @@
       </Events>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator2">
-    </Component>
-    <Component class="javax.swing.JTextField" name="id_posla_dodavanje">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="f9" green="e0" red="e0" type="rgb"/>
-        </Property>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-            <LineBorder roundedCorners="true" thickness="2"/>
-          </Border>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="id_posla_dodavanjeActionPerformed"/>
-        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="id_posla_dodavanjeKeyTyped"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel5">
-      <Properties>
-        <Property name="horizontalAlignment" type="int" value="4"/>
-        <Property name="text" type="java.lang.String" value="ID:"/>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>

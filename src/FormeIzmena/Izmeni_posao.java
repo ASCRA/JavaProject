@@ -41,8 +41,6 @@ public class Izmeni_posao extends Glavna_Forma_Izmena {
         izmeni_posao_dugme = new javax.swing.JButton();
         obrisi_posao = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
-        id_posla_dodavanje = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -112,22 +110,6 @@ public class Izmeni_posao extends Glavna_Forma_Izmena {
             }
         });
 
-        id_posla_dodavanje.setBackground(new java.awt.Color(224, 224, 249));
-        id_posla_dodavanje.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
-        id_posla_dodavanje.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                id_posla_dodavanjeActionPerformed(evt);
-            }
-        });
-        id_posla_dodavanje.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                id_posla_dodavanjeKeyTyped(evt);
-            }
-        });
-
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel5.setText("ID:");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -141,8 +123,7 @@ public class Izmeni_posao extends Glavna_Forma_Izmena {
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel6))
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel6)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -157,8 +138,7 @@ public class Izmeni_posao extends Glavna_Forma_Izmena {
                             .addComponent(obrisi_posao, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(naziv_posla_dodavanje)
                     .addComponent(plata_posla_dodavanje)
-                    .addComponent(izbor_posla, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(id_posla_dodavanje, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(izbor_posla, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -172,11 +152,7 @@ public class Izmeni_posao extends Glavna_Forma_Izmena {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(izbor_posla, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(id_posla_dodavanje, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(naziv_posla_dodavanje, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
@@ -219,7 +195,7 @@ public class Izmeni_posao extends Glavna_Forma_Izmena {
     private void izbor_poslaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_izbor_poslaActionPerformed
         poslovi = Datoteke.ucitajPoslove();
         int izabraniPosao = izbor_posla.getSelectedIndex();
-            id_posla_dodavanje.setText(String.valueOf(poslovi.get(izabraniPosao).getId()));
+            
             naziv_posla_dodavanje.setText(poslovi.get(izabraniPosao).getNaziv());
             plata_posla_dodavanje.setText(String.valueOf(poslovi.get(izabraniPosao).getPlata()));
             
@@ -238,20 +214,19 @@ public class Izmeni_posao extends Glavna_Forma_Izmena {
         poslovi = Datoteke.ucitajPoslove();
         radnici = Datoteke.ucitajRadnike();
         
-        if(naziv_posla_dodavanje.getText().isEmpty() || plata_posla_dodavanje.getText().isEmpty() || id_posla_dodavanje.getText().isEmpty())
+        if(naziv_posla_dodavanje.getText().isEmpty() || plata_posla_dodavanje.getText().isEmpty())
         {
             JOptionPane.showMessageDialog(null, "Popunite sva polja!");
         }
         else
         {
-            int idPosla = Integer.parseInt(id_posla_dodavanje.getText().trim());
             String nazivPosla = naziv_posla_dodavanje.getText().trim();
             
             int brojOvakvihPoslova = 0;
             
             for(int i = 0; i < poslovi.size(); i++)
             {
-                if(poslovi.get(i).getNaziv().equals(nazivPosla) || (poslovi.get(i).getId() == idPosla))
+                if(poslovi.get(i).getNaziv().equals(nazivPosla))
                     brojOvakvihPoslova++;
             }
             
@@ -262,7 +237,6 @@ public class Izmeni_posao extends Glavna_Forma_Izmena {
             PodesiVremeOdlaska();
             
             
-            poslovi.get(izbor_posla.getSelectedIndex()).setId(idPosla);
             poslovi.get(izbor_posla.getSelectedIndex()).setNaziv(nazivPosla);
             poslovi.get(izbor_posla.getSelectedIndex()).setPlata(plataPosla);
             poslovi.get(izbor_posla.getSelectedIndex()).setVremeDolaska(vreme_dolaska);
@@ -272,14 +246,14 @@ public class Izmeni_posao extends Glavna_Forma_Izmena {
             
             for(int i = 0; i < radnici.size(); i++)
             {
-                if(radnici.get(i).getPosao().getId() == idPosla)
+                if(radnici.get(i).getPosao().getNaziv().equals(naziv_posla_dodavanje.getText().trim()))
                 {
                     radnici.get(i).setPosao(poslovi.get(izbor_posla.getSelectedIndex()));
                 }
             }
             izbor_posla.setModel(super.popuni_listu_poslova());
             izbor_posla.setSelectedIndex(0);
-            Datoteke.upisiRadnika(radnici);
+            Datoteke.upisiRadnike(radnici);
             JOptionPane.showMessageDialog(null, "Uspesno sacuvano!");
             }
             else
@@ -343,14 +317,6 @@ public class Izmeni_posao extends Glavna_Forma_Izmena {
         // TODO add your handling code here:
     }//GEN-LAST:event_naziv_posla_dodavanjeActionPerformed
 
-    private void id_posla_dodavanjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_id_posla_dodavanjeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_id_posla_dodavanjeActionPerformed
-
-    private void id_posla_dodavanjeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_id_posla_dodavanjeKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_id_posla_dodavanjeKeyTyped
-
     /**
      * @param args the command line arguments
      */
@@ -388,14 +354,12 @@ public class Izmeni_posao extends Glavna_Forma_Izmena {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField id_posla_dodavanje;
     private javax.swing.JComboBox<String> izbor_posla;
     private javax.swing.JButton izmeni_posao_dugme;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField naziv_posla_dodavanje;
