@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package projektni.zadatak.Forme;
-
 import KlaseOsoba.Dolazak_Radnika;
 import KlaseOsoba.Radnik;
 import FormeIzvoda.Danasnji_Izvod;
@@ -31,7 +30,6 @@ public class Radnici_Meni extends javax.swing.JFrame {
     DefaultTableModel model;
     ArrayList<Radnik> radnici;
     ArrayList<Dolazak_Radnika> sviDolasci;
-    ArrayList<Radnik> sortirani_radnici;
     int brojPrisutnih = 0;
 
     public Radnici_Meni() {
@@ -41,13 +39,15 @@ public class Radnici_Meni extends javax.swing.JFrame {
         model = (DefaultTableModel) tabela.getModel();
         radnici = Datoteke.ucitajRadnike();
         sviDolasci = Datoteke.citaj_iz_velike();
-        sortirani_radnici = nadjiPrisutne(sviDolasci, radnici);
-        for(int i = 0; i < sortirani_radnici.size(); i++)
-        model.insertRow(model.getRowCount(), new Object [] {sortirani_radnici.get(i).getId(), 
-                                                                sortirani_radnici.get(i).getIme(), 
-                                                                sortirani_radnici.get(i).getPrezime(), 
-                                                                sortirani_radnici.get(i).getPosao().getNaziv()});
-        
+        for(int i = 0; i < radnici.size(); i++)
+        {
+        if(radnici.get(i).isStatus())
+        model.insertRow(model.getRowCount(), new Object [] {radnici.get(i).getId(), 
+                                                                radnici.get(i).getIme(), 
+                                                                radnici.get(i).getPrezime(), 
+                                                                radnici.get(i).getPosao().getNaziv(),
+                                                                proveriPrisutnost(radnici.get(i))});
+        }
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -55,58 +55,21 @@ public class Radnici_Meni extends javax.swing.JFrame {
                 id_radnika_text.setText(String.valueOf(radnici.get(row).getId()));
             }
         });
-        tabela.setDefaultRenderer(Object.class, new TableCellRenderer(){
-        private DefaultTableCellRenderer DEFAULT_RENDERER =  new DefaultTableCellRenderer();
-
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                Component c = DEFAULT_RENDERER.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                    c.setBackground(row < brojPrisutnih ? Color.GREEN : Color.WHITE);
-                return c;
-            }
-        });
+        
+        tabela.setAutoCreateRowSorter(true);
     }
     
-    public ArrayList<Radnik> nadjiPrisutne(ArrayList<Dolazak_Radnika> sviDolasci, ArrayList<Radnik> radnici){
-        ArrayList<Radnik> prisutni = new ArrayList<>();
-        ArrayList<Radnik> sortirani = new ArrayList<>();
-        
+    public String proveriPrisutnost(Radnik radnik){
+        String prisutnost = "Nije prisutan";
         for(int i = 0; i < sviDolasci.size(); i++)
         {
-            if(sviDolasci.get(i).getDatum_dolaska().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().compareTo(LocalDate.now()) == 0)
+            if(sviDolasci.get(i).getRadnik().equals(radnik) && (sviDolasci.get(i).getDatum_dolaska().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().compareTo(LocalDate.now()) == 0))
             {
-                prisutni.add(sviDolasci.get(i).getRadnik());
+                prisutnost = "Prisutan";
+                break;
             }
         }
-        
-        for(int i = 0; i < radnici.size(); i++)
-        {
-            for(int j = 0; j < prisutni.size(); j++)
-            {
-                if(prisutni.get(j).getId() == radnici.get(i).getId())
-                {
-                    sortirani.add(radnici.get(i));
-                    break;
-                }
-            }
-        }
-        brojPrisutnih = sortirani.size();
-        for(int i = 0; i < radnici.size(); i++)
-        {
-            int brojac = 0;
-            for(int j = 0; j < sortirani.size(); j++)
-            {
-                if(radnici.get(i).getId() != sortirani.get(j).getId())
-                {
-                    brojac++;
-                }
-            }
-            if(brojac==sortirani.size())
-            {
-                sortirani.add(radnici.get(i));
-            }
-        }
-        return sortirani;
+        return prisutnost;
     }
     
    
@@ -148,9 +111,17 @@ public class Radnici_Meni extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Ime", "Prezime", "Posao"
+                "ID", "Ime", "Prezime", "Posao", "Status"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tabela);
 
         jButton1.setText("Više informacija");
@@ -213,8 +184,8 @@ public class Radnici_Meni extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(106, 106, 106)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

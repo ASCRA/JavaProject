@@ -79,7 +79,7 @@ public abstract class Datoteke {
     }
     
     
-    public static void upisiRadnika(ArrayList<Radnik> radnici)
+    public static void upisiRadnike(ArrayList<Radnik> radnici)
     {
         try
         {

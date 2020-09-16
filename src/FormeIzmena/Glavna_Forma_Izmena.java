@@ -28,9 +28,9 @@ public abstract class Glavna_Forma_Izmena extends Glavna_Forma {
     
     public DefaultComboBoxModel popuni_listu_radnika(){
         ucitaj_podatke();
-        String pomocnaLista[] = new String[poslovi.size()];
-        for(int i = 0; i < poslovi.size(); i++)
-        pomocnaLista[i] = poslovi.get(i).getNaziv();
+        String pomocnaLista[] = new String[radnici.size()];
+        for(int i = 0; i < radnici.size(); i++)
+        pomocnaLista[i] = radnici.get(i).getIme() + ", ID:" + radnici.get(i).getId();
         DefaultComboBoxModel model = new DefaultComboBoxModel<>(pomocnaLista);
         return model;
     }

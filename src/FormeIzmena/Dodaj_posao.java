@@ -49,8 +49,6 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
         vreme_odlaska_minut = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel7 = new javax.swing.JLabel();
-        id_posla_dodavanje = new javax.swing.JTextField();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -113,21 +111,6 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jLabel7.setText("ID:");
-
-        id_posla_dodavanje.setBackground(new java.awt.Color(224, 224, 249));
-        id_posla_dodavanje.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
-        id_posla_dodavanje.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                id_posla_dodavanjeActionPerformed(evt);
-            }
-        });
-        id_posla_dodavanje.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                id_posla_dodavanjeKeyTyped(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -135,9 +118,6 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel7))
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -160,23 +140,15 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(vreme_odlaska_minut)
-                            .addComponent(vreme_dolaska_minut, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(id_posla_dodavanje))
+                            .addComponent(vreme_dolaska_minut, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(id_posla_dodavanje, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(11, 11, 11))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(18, 18, 18)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(naziv_posla_dodavanje, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
@@ -196,10 +168,10 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
                             .addComponent(vreme_odlaska_sat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(vreme_odlaska_minut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6)))
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(dodaj_dugme_posao, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -218,7 +190,6 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
         else
         {     
             
-            int id = Integer.parseInt(id_posla_dodavanje.getText().trim());
             String nazivPosla = naziv_posla_dodavanje.getText().trim();
             
             double plataPosla = Double.parseDouble(plata_posla_dodavanje.getText().trim());
@@ -229,9 +200,9 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
             
             for(int i = 0; i < poslovi.size(); i++)
             {
-                if(poslovi.get(i).getNaziv().equals(nazivPosla) || (poslovi.get(i).getId() == id))
+                if(poslovi.get(i).getNaziv().equals(nazivPosla))
                 {
-                    JOptionPane.showMessageDialog(null, "Zadati posao vec postoji ili ste uneli postojeći ID!");
+                    JOptionPane.showMessageDialog(null, "Zadati posao vec postoji");
                     mozemoDodati = false;
                     break;
                 }
@@ -239,7 +210,7 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
             
             if(mozemoDodati == true)
             {
-                Posao posao = new Posao(id, plataPosla, nazivPosla, vreme_dolaska, vreme_odlaska);
+                Posao posao = new Posao(plataPosla, nazivPosla, vreme_dolaska, vreme_odlaska);
                 poslovi.add(posao);
                 Datoteke.upisiPosao(poslovi);
                 JOptionPane.showMessageDialog(null, "Uspesno sacuvano!");
@@ -299,16 +270,6 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
              evt.consume(); 
     }//GEN-LAST:event_naziv_posla_dodavanjeKeyTyped
 
-    private void id_posla_dodavanjeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_id_posla_dodavanjeKeyTyped
-        char t = evt.getKeyChar();
-         if(!(Character.isDigit(t)))
-             evt.consume(); 
-    }//GEN-LAST:event_id_posla_dodavanjeKeyTyped
-
-    private void id_posla_dodavanjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_id_posla_dodavanjeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_id_posla_dodavanjeActionPerformed
-
     private void plata_posla_dodavanjeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_plata_posla_dodavanjeKeyTyped
        char t = evt.getKeyChar();
          if(!(Character.isDigit(t)))
@@ -353,14 +314,12 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton dodaj_dugme_posao;
-    private javax.swing.JTextField id_posla_dodavanje;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
