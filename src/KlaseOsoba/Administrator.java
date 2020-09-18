@@ -9,7 +9,7 @@ public class Administrator extends Osoba{
     
     private String korisnickoIme;
     private String sifra;
-
+    
     public Administrator(String korisnickoIme, String sifra, String ime, String prezime, int id) {
         super(ime, prezime, id);
         this.korisnickoIme = korisnickoIme;

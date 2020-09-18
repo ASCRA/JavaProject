@@ -91,8 +91,6 @@ public abstract class Datoteke {
             }
             
             izlazniFajl.close();
-            
-            
         }
         catch(IOException e)
         {

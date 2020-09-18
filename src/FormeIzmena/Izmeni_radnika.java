@@ -4,25 +4,26 @@
  * and open the template in the editor.
  */
 package FormeIzmena;
-import KlaseOsoba.Radnik;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import java.util.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import projektni.zadatak.Glavna_Forma;
 import projektni.zadatak.Klase.*;
 
-public class Izmeni_radnika extends Glavna_Forma_Izmena {
+public class Izmeni_radnika extends Forma_Radnik{
 
-    ArrayList<Radnik> radnici;
-    ArrayList<Posao> poslovi;
     DefaultTableModel model;
+    int id_radnika;
+    DefaultTableCellRenderer pozicioniranje = new DefaultTableCellRenderer();
     
     public Izmeni_radnika() {
         initComponents();
+        ucitaj_podatke();
         this.setLocationRelativeTo(null);
         model = (DefaultTableModel) tabela.getModel();
-        radnici = Datoteke.ucitajRadnike();
-        poslovi = Datoteke.ucitajPoslove();
-        izbor_posla.setModel(super.popuni_listu_poslova());
+        izbor_posla.setModel(popuni_listu_poslova());
         for(int i = 0; i < radnici.size(); i++)
         {
         model.insertRow(model.getRowCount(), new Object [] {radnici.get(i).getId(), 
@@ -31,14 +32,34 @@ public class Izmeni_radnika extends Glavna_Forma_Izmena {
                                                                 radnici.get(i).getPosao().getNaziv(),
                                                                 (radnici.get(i).isStatus()?"Aktivan":"Neaktivan")});
         }
+        
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = tabela.rowAtPoint(evt.getPoint());
+                ime_radnika_dodavanje.setText(String.valueOf(radnici.get(row).getIme()));
+                prezime_radnika_dodavanje.setText(String.valueOf(radnici.get(row).getPrezime()));
+                izbor_posla.setSelectedIndex(nadjiPosao(String.valueOf(radnici.get(row).getPosao().getNaziv())));
+                izbor_statusa.setSelectedIndex(radnici.get(row).isStatus() ? 0 : 1);
+                id_radnika = radnici.get(row).getId();
+            }
+        });
+         
+        pozicioniranje.setHorizontalAlignment(JLabel.CENTER);
+        int broj_kolona = tabela.getColumnModel().getColumnCount();
+        for(int i = 0; i < broj_kolona; i++)
+        tabela.getColumnModel().getColumn(i).setCellRenderer(pozicioniranje);
     }
-
+    
     public Integer nadjiPosao(String nazivPosla){
         int indexPosla = 0;
         for(int i = 0; i < poslovi.size(); i++)
         {
             if(poslovi.get(i).getNaziv().equals(nazivPosla))
+            {
                 indexPosla = i;
+                break;
+            }
         }
         return indexPosla;
     }
@@ -55,12 +76,11 @@ public class Izmeni_radnika extends Glavna_Forma_Izmena {
         prezime_radnika_dodavanje = new javax.swing.JTextField();
         izbor_posla = new javax.swing.JComboBox<>();
         izmeni_radnika_dugme = new javax.swing.JButton();
-        deaktiviraj_radnika = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
-        izbor_posla1 = new javax.swing.JComboBox<>();
+        izbor_statusa = new javax.swing.JComboBox<>();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -93,14 +113,6 @@ public class Izmeni_radnika extends Glavna_Forma_Izmena {
             }
         });
 
-        deaktiviraj_radnika.setText("Deaktiviraj");
-        deaktiviraj_radnika.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
-        deaktiviraj_radnika.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deaktiviraj_radnikaActionPerformed(evt);
-            }
-        });
-
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
@@ -112,25 +124,32 @@ public class Izmeni_radnika extends Glavna_Forma_Izmena {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(tabela);
 
         jLabel5.setText("Status:");
 
-        izbor_posla1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aktivan", "Neaktivan" }));
+        izbor_statusa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aktivan", "Neaktivan" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
@@ -139,24 +158,20 @@ public class Izmeni_radnika extends Glavna_Forma_Izmena {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(ime_radnika_dodavanje, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(prezime_radnika_dodavanje, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(izbor_posla, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(izmeni_radnika_dugme, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deaktiviraj_radnika, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(izbor_posla1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(izmeni_radnika_dugme, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(ime_radnika_dodavanje, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(prezime_radnika_dodavanje, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(izbor_posla, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(izbor_statusa, javax.swing.GroupLayout.Alignment.LEADING, 0, 192, Short.MAX_VALUE)))
+                .addGap(48, 48, 48)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -174,13 +189,10 @@ public class Izmeni_radnika extends Glavna_Forma_Izmena {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
-                            .addComponent(izbor_posla1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(izbor_statusa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(izmeni_radnika_dugme, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(deaktiviraj_radnika, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37))
+                .addGap(18, 18, 18)
+                .addComponent(izmeni_radnika_dugme, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -193,28 +205,41 @@ public class Izmeni_radnika extends Glavna_Forma_Izmena {
             JOptionPane.showMessageDialog(null, "Popunite sva polja!");
         }
         else
-        {     
-            int brojOvakvihRadnika = 0;
-            
+        {           
             String imeRadnika = ime_radnika_dodavanje.getText().trim();
             String prezimeRadnika = prezime_radnika_dodavanje.getText().trim();
             int posao = izbor_posla.getSelectedIndex();
             Posao izabraniPosao = poslovi.get(posao);
+            boolean status = (izbor_statusa.getSelectedIndex() == 0);
+            for(int i = 0; i < radnici.size(); i++)
+            {
+                if(radnici.get(i).getId() == id_radnika)
+                {
+                    radnici.get(i).setIme(imeRadnika);
+                    radnici.get(i).setPrezime(prezimeRadnika);   
+                    radnici.get(i).setPosao(izabraniPosao);
+                    radnici.get(i).setStatus(status);
+                }
+            }
             
             Datoteke.upisiRadnike(radnici);
             JOptionPane.showMessageDialog(null, "Uspesno sacuvano!");
-        }               
-        
+        }
+         
+        model.setRowCount(0);
+        for(int i = 0; i < radnici.size(); i++)
+        {
+        model.insertRow(model.getRowCount(), new Object [] {radnici.get(i).getId(), 
+                                                                radnici.get(i).getIme(), 
+                                                                radnici.get(i).getPrezime(), 
+                                                                radnici.get(i).getPosao().getNaziv(),
+                                                                (radnici.get(i).isStatus()?"Aktivan":"Neaktivan")});
+        }
     }//GEN-LAST:event_izmeni_radnika_dugmeActionPerformed
 
     private void ime_radnika_dodavanjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ime_radnika_dodavanjeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ime_radnika_dodavanjeActionPerformed
-
-    private void deaktiviraj_radnikaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deaktiviraj_radnikaActionPerformed
-            radnici = Datoteke.ucitajRadnike();
-            Datoteke.upisiRadnike(radnici);
-    }//GEN-LAST:event_deaktiviraj_radnikaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,10 +277,9 @@ public class Izmeni_radnika extends Glavna_Forma_Izmena {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton deaktiviraj_radnika;
     private javax.swing.JTextField ime_radnika_dodavanje;
     private javax.swing.JComboBox<String> izbor_posla;
-    private javax.swing.JComboBox<String> izbor_posla1;
+    private javax.swing.JComboBox<String> izbor_statusa;
     private javax.swing.JButton izmeni_radnika_dugme;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

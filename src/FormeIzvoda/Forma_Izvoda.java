@@ -1,23 +1,24 @@
-package FormeIzmena;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package FormeIzvoda;
 
-
+import static FormeIzvoda.Mesecni_Izvod.izabraniMesec;
 import KlaseOsoba.Dolazak_Radnika;
 import KlaseOsoba.Radnik;
 import java.util.ArrayList;
+import projektni.zadatak.Glavna_Forma;
 import projektni.zadatak.Klase.Datoteke;
-import projektni.zadatak.Klase.Posao;
 
-public abstract class Glavna_Forma extends javax.swing.JFrame {
-
-    ArrayList<Radnik> radnici;
-    ArrayList<Posao> poslovi;
+public abstract class Forma_Izvoda extends Glavna_Forma{
     
-    public void ucitaj_podatke(){
-        radnici = Datoteke.ucitajRadnike();
-        poslovi = Datoteke.ucitajPoslove();
+    ArrayList<Dolazak_Radnika> sviDolasci;
+    
+    public void ucitaj_dolaske(){
+        this.sviDolasci = Datoteke.citaj_iz_velike();
     }
-   
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -38,9 +39,6 @@ public abstract class Glavna_Forma extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -55,20 +53,19 @@ public abstract class Glavna_Forma extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Glavna_Forma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Forma_Izvoda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Glavna_Forma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Forma_Izvoda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Glavna_Forma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Forma_Izvoda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Glavna_Forma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Forma_Izvoda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-               
             }
         });
     }

@@ -10,55 +10,66 @@ import KlaseOsoba.Radnik;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import static java.util.concurrent.TimeUnit.MINUTES;
+import projektni.zadatak.Glavna_Forma;
 import projektni.zadatak.Klase.*;
 
 
-public class Danasnji_Izvod extends javax.swing.JFrame {
+public class Danasnji_Izvod extends Forma_Izvoda {
 
-    ArrayList<Radnik> radnici;
     public static String id_radnika;
     int id = Integer.parseInt(id_radnika)-1;
     
     public Danasnji_Izvod() {
         initComponents();
         this.setLocationRelativeTo(null);
-        radnici = Datoteke.ucitajRadnike();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        ucitaj_podatke();
+        ucitaj_dolaske();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm");
         
-        jTextField1.setText(radnici.get(id).getIme());
-        jTextField2.setText(radnici.get(id).getPrezime());
-        jTextField3.setText(String.valueOf(radnici.get(id).getId()));
-        jTextField4.setText(radnici.get(id).getPosao().getNaziv());
-        jTextField5.setText(formatter.format(pronadjiPrisustvo(radnici.get(id)).getVreme_prijave()));
-        jTextField6.setText(formatter.format(pronadjiPrisustvo(radnici.get(id)).getVreme_odjave()));
-        jTextField7.setText(radnici.get(id).getPosao().getVremeDolaska());
-        
-        long elapsedMinutes = Duration.between(LocalTime.parse(radnici.get(id).getPosao().getVremeDolaska()), pronadjiPrisustvo(radnici.get(id)).getVreme_prijave()).toMinutes();
-        long sati = elapsedMinutes/60;
-        long minuti = elapsedMinutes-sati*60;
-        if(Math.abs(sati)<=0)
+        ime_tekst.setText(radnici.get(id).getIme());
+        prezime_tekst.setText(radnici.get(id).getPrezime());
+        id_tekst.setText(String.valueOf(radnici.get(id).getId()));
+        posao_tekst.setText(radnici.get(id).getPosao().getNaziv());
+        if(pronadjiPrisustvo(radnici.get(id)).getVreme_prijave().compareTo(LocalTime.parse("00:00")) == 0)
         {
-        jTextField8.setText(String.valueOf(minuti));
+            vreme_dolaska_tekst.setText("");
+            vreme_odlaska_tekst.setText("");
         }
         else
         {
-        jTextField8.setText(String.valueOf(sati)+":"+String.valueOf(minuti));
+        vreme_dolaska_tekst.setText(pronadjiPrisustvo(radnici.get(id)).getVreme_prijave() == null ? "" : format.format(pronadjiPrisustvo(radnici.get(id)).getVreme_prijave()));
+        vreme_odlaska_tekst.setText(pronadjiPrisustvo(radnici.get(id)).getVreme_odjave()== null ? "" : format.format(pronadjiPrisustvo(radnici.get(id)).getVreme_odjave()));
+        }
+        pred_vreme_dolaska_tekst.setText(format.format(radnici.get(id).getPosao().getVremeDolaska()));
+        
+        long brojMinuta = Duration.between(radnici.get(id).getPosao().getVremeDolaska(), pronadjiPrisustvo(radnici.get(id)).getVreme_prijave()).toMinutes();
+        long sati = brojMinuta/60;
+        long minuti = brojMinuta-sati*60;
+        if(brojMinuta > 0)
+        {
+        if(Math.abs(sati)<= 0)
+        {
+            kasnjenje_tekst.setText(String.valueOf(minuti) + "m");
+        }
+        else
+        {
+            kasnjenje_tekst.setText(String.valueOf(sati)+ "h" + String.valueOf(minuti) + "m");
+        }
+        }
+        else
+        {
+            kasnjenje_tekst.setText("Radnik nije dosao");
         }
     }
 
     public Dolazak_Radnika pronadjiPrisustvo(Radnik radnik)
     {
-        ArrayList<Dolazak_Radnika> sviDolasci;
-        sviDolasci = Datoteke.citaj_iz_velike();
         Calendar cal = Calendar.getInstance();
         cal.set(0, 0, 0);
-        Date datum = new Date();
+        LocalDate datum = LocalDate.now();
         Dolazak_Radnika nijeDosao = new Dolazak_Radnika(radnik, datum, LocalTime.parse("00:00"), LocalTime.parse("00:00"));
         boolean nadjenDolazak = false;
         int trazeniID = 0;
@@ -67,7 +78,7 @@ public class Danasnji_Izvod extends javax.swing.JFrame {
         {
             if(radnik.getId() == sviDolasci.get(i).getRadnik().getId())
             {
-                if(sviDolasci.get(i).getDatum_dolaska().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().compareTo(LocalDate.now()) == 0)
+                if(sviDolasci.get(i).getDatum_dolaska().compareTo(LocalDate.now()) == 0)
                 {
                     nadjenDolazak = true;
                     trazeniID = i;
@@ -93,14 +104,14 @@ public class Danasnji_Izvod extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
+        ime_tekst = new javax.swing.JTextField();
+        prezime_tekst = new javax.swing.JTextField();
+        id_tekst = new javax.swing.JTextField();
+        posao_tekst = new javax.swing.JTextField();
+        vreme_dolaska_tekst = new javax.swing.JTextField();
+        vreme_odlaska_tekst = new javax.swing.JTextField();
+        pred_vreme_dolaska_tekst = new javax.swing.JTextField();
+        kasnjenje_tekst = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -121,23 +132,23 @@ public class Danasnji_Izvod extends javax.swing.JFrame {
 
         jLabel8.setText("Kasnjenje:");
 
-        jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jTextField1.setFocusable(false);
-        jTextField1.setRequestFocusEnabled(false);
+        ime_tekst.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        ime_tekst.setFocusable(false);
+        ime_tekst.setRequestFocusEnabled(false);
 
-        jTextField2.setFocusable(false);
+        prezime_tekst.setFocusable(false);
 
-        jTextField3.setFocusable(false);
+        id_tekst.setFocusable(false);
 
-        jTextField4.setFocusable(false);
+        posao_tekst.setFocusable(false);
 
-        jTextField5.setFocusable(false);
+        vreme_dolaska_tekst.setFocusable(false);
 
-        jTextField6.setFocusable(false);
+        vreme_odlaska_tekst.setFocusable(false);
 
-        jTextField7.setFocusable(false);
+        pred_vreme_dolaska_tekst.setFocusable(false);
 
-        jTextField8.setFocusable(false);
+        kasnjenje_tekst.setFocusable(false);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel9.setText("DANASNJI IZVOD RADNIKA");
@@ -149,32 +160,28 @@ public class Danasnji_Izvod extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(70, 70, 70)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel5)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jLabel6))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel7)))
+                            .addComponent(jLabel8))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2)
-                            .addComponent(jTextField3)
-                            .addComponent(jTextField4)
-                            .addComponent(jTextField5)
-                            .addComponent(jTextField6)
-                            .addComponent(jTextField7)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(ime_tekst)
+                                .addComponent(id_tekst)
+                                .addComponent(posao_tekst)
+                                .addComponent(vreme_dolaska_tekst)
+                                .addComponent(vreme_odlaska_tekst)
+                                .addComponent(pred_vreme_dolaska_tekst)
+                                .addComponent(kasnjenje_tekst, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))
+                            .addComponent(prezime_tekst, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(79, 79, 79)
                         .addComponent(jLabel9)))
@@ -184,39 +191,39 @@ public class Danasnji_Izvod extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(11, 11, 11)
-                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(ime_tekst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(prezime_tekst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(id_tekst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(posao_tekst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(vreme_dolaska_tekst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(vreme_odlaska_tekst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pred_vreme_dolaska_tekst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(kasnjenje_tekst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -261,6 +268,8 @@ public class Danasnji_Izvod extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField id_tekst;
+    private javax.swing.JTextField ime_tekst;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -270,13 +279,11 @@ public class Danasnji_Izvod extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField kasnjenje_tekst;
+    private javax.swing.JTextField posao_tekst;
+    private javax.swing.JTextField pred_vreme_dolaska_tekst;
+    private javax.swing.JTextField prezime_tekst;
+    private javax.swing.JTextField vreme_dolaska_tekst;
+    private javax.swing.JTextField vreme_odlaska_tekst;
     // End of variables declaration//GEN-END:variables
 }

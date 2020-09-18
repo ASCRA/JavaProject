@@ -6,22 +6,19 @@
 package FormeIzmena;
 
 import KlaseOsoba.Radnik;
+import javax.swing.DefaultComboBoxModel;
 import projektni.zadatak.Klase.Datoteke;
 import javax.swing.JOptionPane;
+import projektni.zadatak.Glavna_Forma;
 import projektni.zadatak.Klase.*;
 
-public final class Dodaj_radnika extends Glavna_Forma_Izmena {
+public final class Dodaj_radnika extends Forma_Radnik {
 
     public Dodaj_radnika() {
         initComponents();
         this.setLocationRelativeTo(null);
         ucitaj_podatke();
-        izbor_Posla.setModel(super.popuni_listu_poslova());
-    }
-    
-    @Override
-    public void ucitaj_podatke() {
-        super.ucitaj_podatke();
+        izbor_Posla.setModel(popuni_listu_poslova());
     }
     
     @SuppressWarnings("unchecked")
