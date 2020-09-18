@@ -1,11 +1,10 @@
 
-package projektni.zadatak.Klase;
+package OstaleKlase;
 
 import KlaseOsoba.Dolazak_Radnika;
 import KlaseOsoba.Radnik;
 import java.io.*;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 public abstract class Datoteke {
     
@@ -30,7 +29,7 @@ public abstract class Datoteke {
                 }
                 catch (Exception f)
                 {
-                    JOptionPane.showMessageDialog(null, f.getMessage());
+                    System.out.println(f.getMessage());
                 }
             }
             
@@ -65,7 +64,7 @@ public abstract class Datoteke {
                 }
                 catch (Exception f)
                 {
-                    JOptionPane.showMessageDialog(null, f.getMessage());
+                    System.out.println(f.getMessage());
                 }
             }
             
@@ -94,7 +93,7 @@ public abstract class Datoteke {
         }
         catch(IOException e)
         {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
     
@@ -116,7 +115,7 @@ public abstract class Datoteke {
         }
         catch(IOException e)
         {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
     
@@ -137,7 +136,7 @@ public abstract class Datoteke {
         }
         catch(IOException e)
         {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
     
@@ -163,7 +162,7 @@ public abstract class Datoteke {
                 }
                 catch (Exception f)
                 {
-                    JOptionPane.showMessageDialog(null, f.getMessage());
+                    System.out.println(f.getMessage());
                 }
             }
             
@@ -171,7 +170,7 @@ public abstract class Datoteke {
         }
         catch(IOException e)
         {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
         }
         return prisutniRadnici;
     }

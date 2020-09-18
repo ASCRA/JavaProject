@@ -5,16 +5,10 @@
  */
 package FormeIzvoda;
 
-import KlaseOsoba.Dolazak_Radnika;
-import KlaseOsoba.Radnik;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import KlaseOsoba.*;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Calendar;
-import projektni.zadatak.Glavna_Forma;
-import projektni.zadatak.Klase.*;
 
 
 public class Danasnji_Izvod extends Forma_Izvoda {

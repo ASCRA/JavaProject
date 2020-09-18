@@ -4,13 +4,9 @@
  * and open the template in the editor.
  */
 package FormeIzmena;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import projektni.zadatak.Glavna_Forma;
-import projektni.zadatak.Klase.*;
+import OstaleKlase.*;
+import javax.swing.*;
+import javax.swing.table.*;
 
 public class Izmeni_radnika extends Forma_Radnik{
 
@@ -99,9 +95,19 @@ public class Izmeni_radnika extends Forma_Radnik{
                 ime_radnika_dodavanjeActionPerformed(evt);
             }
         });
+        ime_radnika_dodavanje.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ime_radnika_dodavanjeKeyTyped(evt);
+            }
+        });
 
         prezime_radnika_dodavanje.setBackground(new java.awt.Color(224, 224, 249));
         prezime_radnika_dodavanje.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        prezime_radnika_dodavanje.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                prezime_radnika_dodavanjeKeyTyped(evt);
+            }
+        });
 
         izbor_posla.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -160,11 +166,10 @@ public class Izmeni_radnika extends Forma_Radnik{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(izmeni_radnika_dugme, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(ime_radnika_dodavanje, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(prezime_radnika_dodavanje, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(izbor_posla, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(izbor_statusa, javax.swing.GroupLayout.Alignment.LEADING, 0, 192, Short.MAX_VALUE)))
+                    .addComponent(ime_radnika_dodavanje)
+                    .addComponent(prezime_radnika_dodavanje)
+                    .addComponent(izbor_posla, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(izbor_statusa, 0, 192, Short.MAX_VALUE))
                 .addGap(48, 48, 48)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE))
         );
@@ -240,6 +245,18 @@ public class Izmeni_radnika extends Forma_Radnik{
     private void ime_radnika_dodavanjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ime_radnika_dodavanjeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ime_radnika_dodavanjeActionPerformed
+
+    private void ime_radnika_dodavanjeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ime_radnika_dodavanjeKeyTyped
+        char t = evt.getKeyChar();
+         if(!(Character.isAlphabetic(t)||Character.isSpaceChar(t)))
+             evt.consume();
+    }//GEN-LAST:event_ime_radnika_dodavanjeKeyTyped
+
+    private void prezime_radnika_dodavanjeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_prezime_radnika_dodavanjeKeyTyped
+        char t = evt.getKeyChar();
+         if(!(Character.isAlphabetic(t)||Character.isSpaceChar(t)))
+             evt.consume();
+    }//GEN-LAST:event_prezime_radnika_dodavanjeKeyTyped
 
     /**
      * @param args the command line arguments

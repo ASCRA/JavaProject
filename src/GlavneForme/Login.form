@@ -31,9 +31,9 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jButton1" max="32767" attributes="0"/>
+                  <Component id="jButton1" pref="160" max="32767" attributes="0"/>
                   <Component id="korisnicko_ime_unos" max="32767" attributes="0"/>
-                  <Component id="lozinka_unos" min="-2" pref="160" max="-2" attributes="0"/>
+                  <Component id="lozinka_unos" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="103" max="32767" attributes="0"/>
           </Group>
@@ -75,8 +75,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="korisnicko_ime_unosActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="lozinka_unos">
-    </Component>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
         <Property name="text" type="java.lang.String" value="Uloguj se"/>
@@ -84,6 +82,8 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="lozinka_unos">
     </Component>
   </SubComponents>
 </Form>

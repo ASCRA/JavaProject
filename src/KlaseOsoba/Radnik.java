@@ -5,7 +5,7 @@ import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.ZoneId;
 import java.util.Calendar;
-import projektni.zadatak.Klase.Posao;
+import OstaleKlase.Posao;
 
 public class Radnik extends Osoba implements Serializable{
     private Posao posao;

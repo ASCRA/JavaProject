@@ -145,6 +145,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="plata_posla_dodavanjeActionPerformed"/>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="plata_posla_dodavanjeKeyTyped"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="naziv_posla_dodavanje">

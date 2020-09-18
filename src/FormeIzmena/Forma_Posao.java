@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package FormeIzmena;
-import projektni.zadatak.Glavna_Forma;
+import GlavneForme.Glavna_Forma;
 
 public abstract class Forma_Posao extends Glavna_Forma {
     public String vreme_dolaska;

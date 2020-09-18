@@ -4,11 +4,12 @@
  * and open the template in the editor.
  */
 package FormeIzmena;
+import OstaleKlase.Datoteke;
+import OstaleKlase.Posao;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import javax.swing.*;
 import javax.swing.table.*;
-import projektni.zadatak.Klase.*;
 
 public class Izmeni_posao extends Forma_Posao {
 
@@ -106,6 +107,11 @@ public class Izmeni_posao extends Forma_Posao {
         plata_posla_dodavanje.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 plata_posla_dodavanjeActionPerformed(evt);
+            }
+        });
+        plata_posla_dodavanje.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                plata_posla_dodavanjeKeyTyped(evt);
             }
         });
 
@@ -243,7 +249,7 @@ public class Izmeni_posao extends Forma_Posao {
 
     private void naziv_posla_dodavanjeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_naziv_posla_dodavanjeKeyTyped
         char t = evt.getKeyChar();
-        if(!(Character.isAlphabetic(t)))
+        if(!(Character.isAlphabetic(t)) && !(Character.isSpaceChar(t)))
         evt.consume();
     }//GEN-LAST:event_naziv_posla_dodavanjeKeyTyped
 
@@ -273,6 +279,7 @@ public class Izmeni_posao extends Forma_Posao {
             vreme_odlaska = PodesiVreme(vreme_odlaska_sat, vreme_odlaska_minut);
             indeksPosla = nadjiPosao(nazivPosla);
             
+            nazivPosla = naziv_posla_dodavanje.getText().trim();
             poslovi.get(indeksPosla).setNaziv(nazivPosla);
             poslovi.get(indeksPosla).setPlata(plataPosla);
             poslovi.get(indeksPosla).setVremeDolaska(LocalTime.parse(vreme_dolaska));
@@ -295,19 +302,47 @@ public class Izmeni_posao extends Forma_Posao {
                 JOptionPane.showMessageDialog(null, "Posao sa istim imenom ili ID brojem vec postoji!");
             }
         }
-
+        
+        model.setRowCount(0);
+        for(int i = 0; i < poslovi.size(); i++)
+        {
+        long br_radnih_sati_minuti = Math.abs(Duration.between(poslovi.get(i).getVremeOdlaska(), poslovi.get(i).getVremeDolaska()).toMinutes());
+        long br_radnih_sati = br_radnih_sati_minuti/60;
+        long minuti = br_radnih_sati_minuti-br_radnih_sati*60;
+        
+        model.insertRow(model.getRowCount(), new Object [] {poslovi.get(i).getNaziv(), 
+                                                                poslovi.get(i).getPlata(), 
+                                                                poslovi.get(i).getVremeDolaska(), 
+                                                                poslovi.get(i).getVremeOdlaska(), 
+                                                                String.valueOf(br_radnih_sati) + "h " + String.valueOf(minuti) + "m"}); 
+        }
     }//GEN-LAST:event_izmeni_posao_dugmeActionPerformed
    
     
     private void obrisi_posaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obrisi_posaoActionPerformed
         indeksPosla = nadjiPosao(nazivPosla);
+        Posao nemaPosao = new Posao("Nema posao");
+        radnici = Datoteke.ucitajRadnike();
+        for(int i = 0; i < radnici.size(); i++)
+        {
+            if(radnici.get(i).getPosao().getNaziv().equals(nazivPosla))
+                radnici.get(i).setPosao(nemaPosao);
+        }
         poslovi.remove(indeksPosla);
         Datoteke.upisiPosao(poslovi);
+        Datoteke.upisiRadnike(radnici);
+        JOptionPane.showMessageDialog(null, "Uspesno sacuvano!");
     }//GEN-LAST:event_obrisi_posaoActionPerformed
 
     private void naziv_posla_dodavanjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_naziv_posla_dodavanjeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_naziv_posla_dodavanjeActionPerformed
+
+    private void plata_posla_dodavanjeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_plata_posla_dodavanjeKeyTyped
+        char t = evt.getKeyChar();
+          if(!(Character.isDigit(t)))
+              evt.consume();
+    }//GEN-LAST:event_plata_posla_dodavanjeKeyTyped
 
     /**
      * @param args the command line arguments

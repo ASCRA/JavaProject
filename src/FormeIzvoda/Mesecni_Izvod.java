@@ -7,17 +7,12 @@ package FormeIzvoda;
 
 import java.util.*;
 import javax.swing.table.*;
-import projektni.zadatak.Klase.Datoteke;
 import KlaseOsoba.*;
 import java.awt.print.PrinterException;
 import java.text.MessageFormat;
-import java.time.ZoneId;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import projektni.zadatak.Glavna_Forma;
+import javax.swing.*;
 
-public final class Mesecni_Izvod extends Forma_Izvoda {
+public final class Mesecni_Izvod extends Forma_Izvoda implements Obracuni{
 
     DefaultTableModel model;
     public static String izabraniMesec;

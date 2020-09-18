@@ -4,13 +4,10 @@
  * and open the template in the editor.
  */
 package FormeIzvoda;
-
-import static FormeIzvoda.Mesecni_Izvod.izabraniMesec;
 import KlaseOsoba.Dolazak_Radnika;
-import KlaseOsoba.Radnik;
 import java.util.ArrayList;
-import projektni.zadatak.Glavna_Forma;
-import projektni.zadatak.Klase.Datoteke;
+import GlavneForme.Glavna_Forma;
+import OstaleKlase.Datoteke;
 
 public abstract class Forma_Izvoda extends Glavna_Forma{
     
