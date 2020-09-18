@@ -1,31 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package FormeIzmena;
 
+import java.time.LocalTime;
 import projektni.zadatak.Klase.Datoteke;
 import javax.swing.JOptionPane;
-import java.util.*;
 import projektni.zadatak.Klase.*;
-/**
- *
- * @author risti
- */
-public class Dodaj_posao extends Glavna_Forma_Izmena {
-    String vreme_dolaska = "00:00";
-    String vreme_odlaska = "00:00";
+
+public class Dodaj_posao extends Forma_Posao {
             
     public Dodaj_posao() {
         initComponents();
         this.setLocationRelativeTo(null);
         ucitaj_podatke();
-    }
-    
-    @Override
-    public void ucitaj_podatke() {
-        super.ucitaj_podatke();
     }
     
     @SuppressWarnings("unchecked")
@@ -189,12 +175,11 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
         }
         else
         {     
-            
             String nazivPosla = naziv_posla_dodavanje.getText().trim();
             
             double plataPosla = Double.parseDouble(plata_posla_dodavanje.getText().trim());
-            PodesiVremeDolaska();
-            PodesiVremeOdlaska();
+            vreme_dolaska = PodesiVreme(vreme_dolaska_sat, vreme_dolaska_minut);
+            vreme_odlaska = PodesiVreme(vreme_odlaska_sat, vreme_odlaska_minut);
             
             boolean mozemoDodati = true;
             
@@ -202,7 +187,7 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
             {
                 if(poslovi.get(i).getNaziv().equals(nazivPosla))
                 {
-                    JOptionPane.showMessageDialog(null, "Zadati posao vec postoji");
+                    JOptionPane.showMessageDialog(null, "Posao sa ovim nazivom već postoji!");
                     mozemoDodati = false;
                     break;
                 }
@@ -210,70 +195,24 @@ public class Dodaj_posao extends Glavna_Forma_Izmena {
             
             if(mozemoDodati == true)
             {
-                Posao posao = new Posao(plataPosla, nazivPosla, vreme_dolaska, vreme_odlaska);
+                Posao posao = new Posao(plataPosla, nazivPosla, LocalTime.parse(vreme_dolaska), LocalTime.parse(vreme_odlaska));
                 poslovi.add(posao);
                 Datoteke.upisiPosao(poslovi);
-                JOptionPane.showMessageDialog(null, "Uspesno sacuvano!");
+                JOptionPane.showMessageDialog(null, "Uspešno sačuvano!");
             }
         }
     }//GEN-LAST:event_dodaj_dugme_posaoActionPerformed
-    
-    public void PodesiVremeDolaska(){
-            String vremeDolaskaMinut = "00";
-            String vremeDolaskaSat = "00";
-        if(Integer.parseInt(String.valueOf(vreme_dolaska_sat.getValue()))>0 && Integer.parseInt(String.valueOf(vreme_dolaska_sat.getValue()))<12)
-            {
-                vremeDolaskaSat = String.valueOf("0"+vreme_dolaska_sat.getValue());
-            }
-            else
-            {
-                vremeDolaskaSat = String.valueOf(vreme_dolaska_sat.getValue());
-            }
-            
-            if(Integer.parseInt(String.valueOf(vreme_dolaska_minut.getValue()))>=0 && Integer.parseInt(String.valueOf(vreme_dolaska_minut.getValue()))<10)
-            {
-                vremeDolaskaMinut = String.valueOf(vreme_dolaska_minut.getValue()+"0");
-            }
-            else
-            {
-                vremeDolaskaMinut = String.valueOf(vreme_dolaska_minut.getValue());
-            }
-            vreme_dolaska = vremeDolaskaSat+":"+vremeDolaskaMinut;
-    }
-    
-    public void PodesiVremeOdlaska(){
-            String vremeOdlaskaMinut = "00";
-            String vremeOdlaskaSat = "00";
-        if(Integer.parseInt(String.valueOf(vreme_odlaska_sat.getValue()))>0 && Integer.parseInt(String.valueOf(vreme_odlaska_sat.getValue()))<12)
-            {
-                vremeOdlaskaSat = String.valueOf("0"+vreme_odlaska_sat.getValue());
-            }
-            else
-            {
-                vremeOdlaskaSat = String.valueOf(vreme_odlaska_sat.getValue());
-            }
-            
-            if(Integer.parseInt(String.valueOf(vreme_odlaska_minut.getValue()))>=0 && Integer.parseInt(String.valueOf(vreme_odlaska_minut.getValue()))<10)
-            {
-                vremeOdlaskaMinut = String.valueOf(vreme_odlaska_minut.getValue()+"0");
-            }
-            else
-            {
-                vremeOdlaskaMinut = String.valueOf(vreme_odlaska_minut.getValue());
-            }
-            vreme_odlaska = vremeOdlaskaSat+":"+vremeOdlaskaMinut;
-    }
-    
+
     private void naziv_posla_dodavanjeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_naziv_posla_dodavanjeKeyTyped
-         char t = evt.getKeyChar();
+        char t = evt.getKeyChar();
          if(!(Character.isAlphabetic(t)||Character.isSpaceChar(t)))
              evt.consume(); 
     }//GEN-LAST:event_naziv_posla_dodavanjeKeyTyped
 
     private void plata_posla_dodavanjeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_plata_posla_dodavanjeKeyTyped
-       char t = evt.getKeyChar();
-         if(!(Character.isDigit(t)))
-             evt.consume();
+        char t = evt.getKeyChar();
+          if(!(Character.isDigit(t)))
+              evt.consume();
     }//GEN-LAST:event_plata_posla_dodavanjeKeyTyped
 
     /**

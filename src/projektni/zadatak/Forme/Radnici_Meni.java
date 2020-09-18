@@ -1,36 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package projektni.zadatak.Forme;
-import KlaseOsoba.Dolazak_Radnika;
-import KlaseOsoba.Radnik;
-import FormeIzvoda.Danasnji_Izvod;
-import FormeIzvoda.Mesecni_Izvod;
-import FormeIzvoda.Raspon_Izvod;
-import java.awt.Color;
-import java.awt.Component;
+import KlaseOsoba.*;
+import FormeIzvoda.*;
+import java.awt.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneId;
 import projektni.zadatak.Klase.Datoteke;
 import java.util.*;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.*;
-import projektni.zadatak.Klase.*;
-/**
- *
- * @author risti
- */
-public class Radnici_Meni extends javax.swing.JFrame {
+
+public final class Radnici_Meni extends javax.swing.JFrame {
 
     DefaultTableModel model;
     ArrayList<Radnik> radnici;
     ArrayList<Dolazak_Radnika> sviDolasci;
+    ArrayList<Radnik> sortirani_radnici;
     int brojPrisutnih = 0;
+    DefaultTableCellRenderer prikaz_tabele =  new DefaultTableCellRenderer();
 
     public Radnici_Meni() {
         initComponents();
@@ -39,31 +25,83 @@ public class Radnici_Meni extends javax.swing.JFrame {
         model = (DefaultTableModel) tabela.getModel();
         radnici = Datoteke.ucitajRadnike();
         sviDolasci = Datoteke.citaj_iz_velike();
-        for(int i = 0; i < radnici.size(); i++)
+        sortirani_radnici = nadjiPrisutne(sviDolasci, radnici);
+        
+        for(int i = 0; i < sortirani_radnici.size(); i++)
         {
-        if(radnici.get(i).isStatus())
-        model.insertRow(model.getRowCount(), new Object [] {radnici.get(i).getId(), 
-                                                                radnici.get(i).getIme(), 
-                                                                radnici.get(i).getPrezime(), 
-                                                                radnici.get(i).getPosao().getNaziv(),
-                                                                proveriPrisutnost(radnici.get(i))});
+        if(sortirani_radnici.get(i).isStatus())
+        model.insertRow(model.getRowCount(), new Object [] {sortirani_radnici.get(i).getId(), 
+                                                                sortirani_radnici.get(i).getIme(), 
+                                                                sortirani_radnici.get(i).getPrezime(), 
+                                                                sortirani_radnici.get(i).getPosao().getNaziv()});
         }
+        
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int row = tabela.rowAtPoint(evt.getPoint());
-                id_radnika_text.setText(String.valueOf(radnici.get(row).getId()));
+                  id_radnika_text.setText(String.valueOf(model.getValueAt(tabela.rowAtPoint(evt.getPoint()), 0)));
             }
         });
         
-        tabela.setAutoCreateRowSorter(true);
+        tabela.setDefaultRenderer(Object.class, new TableCellRenderer(){
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+   
+                Component c = prikaz_tabele.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                    c.setBackground((row < brojPrisutnih) ? Color.GREEN : Color.WHITE);
+                    prikaz_tabele.setHorizontalAlignment(JLabel.CENTER);
+                return c;
+            }
+        }); 
+    }
+    
+    public ArrayList<Radnik> nadjiPrisutne(ArrayList<Dolazak_Radnika> sviDolasci, ArrayList<Radnik> radnici){
+        ArrayList<Radnik> prisutni = new ArrayList<>();
+        ArrayList<Radnik> sortirani = new ArrayList<>();
+
+        for(int i = 0; i < sviDolasci.size(); i++)
+        {
+            if(sviDolasci.get(i).getDatum_dolaska().compareTo(LocalDate.now()) == 0)
+            {
+                prisutni.add(sviDolasci.get(i).getRadnik());
+            }
+        }
+
+        for(int i = 0; i < radnici.size(); i++)
+        {
+            for(int j = 0; j < prisutni.size(); j++)
+            {
+                if(prisutni.get(j).getId() == radnici.get(i).getId())
+                {
+                    sortirani.add(radnici.get(i));
+                    break;
+                }
+            }
+        }
+        brojPrisutnih = sortirani.size();
+        for(int i = 0; i < radnici.size(); i++)
+        {
+            int brojac = 0;
+            for(int j = 0; j < sortirani.size(); j++)
+            {
+                if(radnici.get(i).getId() != sortirani.get(j).getId())
+                {
+                    brojac++;
+                }
+            }
+            if(brojac==sortirani.size())
+            {
+                sortirani.add(radnici.get(i));
+            }
+        }
+        return sortirani; 
     }
     
     public String proveriPrisutnost(Radnik radnik){
         String prisutnost = "Nije prisutan";
         for(int i = 0; i < sviDolasci.size(); i++)
         {
-            if(sviDolasci.get(i).getRadnik().equals(radnik) && (sviDolasci.get(i).getDatum_dolaska().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().compareTo(LocalDate.now()) == 0))
+            if((sviDolasci.get(i).getRadnik().getId() == radnik.getId()) && (sviDolasci.get(i).getDatum_dolaska().compareTo(LocalDate.now()) == 0))
             {
                 prisutnost = "Prisutan";
                 break;
@@ -104,22 +142,29 @@ public class Radnici_Meni extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 300));
+        setPreferredSize(new java.awt.Dimension(850, 300));
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Ime", "Prezime", "Posao", "Status"
+                "ID", "Ime", "Prezime", "Posao"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(tabela);
@@ -172,20 +217,20 @@ public class Radnici_Meni extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pocetni_datum, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))
-                        .addGap(28, 28, 28)
+                            .addComponent(pocetni_datum, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(id_radnika_text, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(izbor_meseca, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(izbor_meseca, 0, 165, Short.MAX_VALUE)
                             .addComponent(krajnji_datum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(106, 106, 106)
+                        .addGap(107, 107, 107)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,9 +246,9 @@ public class Radnici_Meni extends javax.swing.JFrame {
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                     .addComponent(izbor_meseca))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pocetni_datum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(krajnji_datum, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pocetni_datum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(krajnji_datum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -220,6 +265,11 @@ public class Radnici_Meni extends javax.swing.JFrame {
         Date datumi[] = new Date[2];
         datumi[0] = pocetni_datum.getDate();
         datumi[1] = krajnji_datum.getDate();
+        if(datumi[0] == null || datumi[1] == null)
+        {
+            JOptionPane.showMessageDialog(null, "Popunite oba polja za datume!");
+        }
+        else
         Raspon_Izvod.main(datumi);
     }//GEN-LAST:event_jButton3ActionPerformed
 

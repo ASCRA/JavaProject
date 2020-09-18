@@ -1,6 +1,10 @@
 
 package KlaseOsoba;
 import java.io.*;
+import java.time.DayOfWeek;
+import java.time.Duration;
+import java.time.ZoneId;
+import java.util.Calendar;
 import projektni.zadatak.Klase.Posao;
 
 public class Radnik extends Osoba implements Serializable{

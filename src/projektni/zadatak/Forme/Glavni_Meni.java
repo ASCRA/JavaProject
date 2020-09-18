@@ -4,7 +4,9 @@ package projektni.zadatak.Forme;
 import FormeIzmena.*;
 import KlaseOsoba.*;
 import projektni.zadatak.Klase.Datoteke;
+import projektni.zadatak.*;
 import java.text.*;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -17,7 +19,7 @@ public final class Glavni_Meni extends Glavna_Forma {
         ArrayList<Dolazak_Radnika> sviDolasci;
         DateFormat format_vreme = new SimpleDateFormat("HH:mm");
         DateFormat format_datum = new SimpleDateFormat("dd/MM/yyyy");
-        Date datum = new Date();
+        LocalDate datum = LocalDate.now();
         Calendar cal = Calendar.getInstance();
         
     public Glavni_Meni() {
@@ -212,8 +214,8 @@ public final class Glavni_Meni extends Glavna_Forma {
             {
                 if((uneseniRadnik.getId() == sviDolasci.get(i).getRadnik().getId()))
                 {
-                    if(sviDolasci.get(i).getDatum_dolaska().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfYear() == datum.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfYear() && 
-                       sviDolasci.get(i).getDatum_dolaska().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear() == datum.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear())
+                    if(sviDolasci.get(i).getDatum_dolaska().getDayOfYear() == datum.getDayOfYear() && 
+                       sviDolasci.get(i).getDatum_dolaska().getYear() == datum.getYear())
                     {
                         vecUnesen = true;
                         break;
@@ -296,8 +298,8 @@ public final class Glavni_Meni extends Glavna_Forma {
             {
                 if(id == sviDolasci.get(i).getRadnik().getId())
                 {
-                    if(sviDolasci.get(i).getDatum_dolaska().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfYear() == datum.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfYear() && 
-                       sviDolasci.get(i).getDatum_dolaska().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear() == datum.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear())
+                    if(sviDolasci.get(i).getDatum_dolaska().getDayOfYear() == datum.getDayOfYear() && 
+                       sviDolasci.get(i).getDatum_dolaska().getYear() == datum.getYear())
                     {
                         if(sviDolasci.get(i).getVreme_odjave()!=null)
                         {

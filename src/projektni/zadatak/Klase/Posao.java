@@ -1,31 +1,25 @@
 
 package projektni.zadatak.Klase;
 import java.io.*;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.Month;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import javax.swing.JOptionPane;
 
 public class Posao implements Serializable{
     
     private double plata;
     private String naziv;
-    private String vremeDolaska;
-    private String VremeOdlaska;
+    private LocalTime vremeDolaska;
+    private LocalTime vremeOdlaska;
 
-    public Posao(double plata, String naziv, String vremeDolaska, String VremeOdlaska) {
+    public Posao(double plata, String naziv, LocalTime vremeDolaska, LocalTime VremeOdlaska) {
         this.plata = plata;
         this.naziv = naziv;
         this.vremeDolaska = vremeDolaska;
-        this.VremeOdlaska = VremeOdlaska;
+        this.vremeOdlaska = VremeOdlaska;
     }
 
     public double getPlata() {
@@ -44,26 +38,30 @@ public class Posao implements Serializable{
         this.naziv = naziv;
     }
 
-    public String getVremeDolaska() {
+    public LocalTime getVremeDolaska() {
         return vremeDolaska;
     }
 
-    public void setVremeDolaska(String vremeDolaska) {
+    public void setVremeDolaska(LocalTime vremeDolaska) {
         this.vremeDolaska = vremeDolaska;
     }
 
-    public String getVremeOdlaska() {
-        return VremeOdlaska;
+    public LocalTime getVremeOdlaska() {
+        return vremeOdlaska;
     }
 
-    public void setVremeOdlaska(String VremeOdlaska) {
-        this.VremeOdlaska = VremeOdlaska;
+    public void setVremeOdlaska(LocalTime vremeOdlaska) {
+        this.vremeOdlaska = vremeOdlaska;
+    }
+    
+    public long obracunajDnevnuKvotu(){
+        return Duration.between(this.vremeDolaska, this.vremeOdlaska).toHours();
     }
     
     public long obracunajMesecnuKvotu(int mesec)
     {
         Calendar cal = Calendar.getInstance();
-        int godina = 2020;
+        int godina = LocalDate.now().getYear();
         int datum = 1;
         
         cal.set(godina, mesec, datum);
@@ -75,16 +73,8 @@ public class Posao implements Serializable{
             brojRadnih++;
                 cal.set(godina, mesec, ++datum);
         }
-        long brojSati = Duration.between(LocalTime.parse(this.vremeDolaska), LocalTime.parse(this.VremeOdlaska)).toHours();
+        long brojSati = Duration.between(this.vremeDolaska, this.vremeOdlaska).toHours();
         
         return brojRadnih*brojSati;
-    }
-    public static ArrayList<Month> values()
-    {
-        ArrayList<Month> daniMeseca = new ArrayList<>();
-           for (Month c : Month.values())
-               daniMeseca.add(c);
-           
-        return daniMeseca;   
     }
 }

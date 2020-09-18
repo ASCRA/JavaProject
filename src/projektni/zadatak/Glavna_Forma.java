@@ -1,21 +1,18 @@
-package projektni.zadatak.Forme;
-
+package projektni.zadatak;
 
 import KlaseOsoba.Radnik;
 import java.util.ArrayList;
-import projektni.zadatak.Klase.Datoteke;
-import projektni.zadatak.Klase.Posao;
+import projektni.zadatak.Klase.*;
 
 public abstract class Glavna_Forma extends javax.swing.JFrame {
 
-    ArrayList<Radnik> radnici;
-    ArrayList<Posao> poslovi;
+    public ArrayList<Radnik> radnici;
+    public ArrayList<Posao> poslovi;
     
     public void ucitaj_podatke(){
-        radnici = Datoteke.ucitajRadnike();
-        poslovi = Datoteke.ucitajPoslove();
+        this.radnici = Datoteke.ucitajRadnike();
+        this.poslovi = Datoteke.ucitajPoslove();
     }
-   
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -62,7 +59,6 @@ public abstract class Glavna_Forma extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Glavna_Forma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
