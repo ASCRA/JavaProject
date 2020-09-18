@@ -1,10 +1,10 @@
 
 package FormeIzmena;
 
+import OstaleKlase.Posao;
 import java.time.LocalTime;
-import projektni.zadatak.Klase.Datoteke;
+import OstaleKlase.Datoteke;
 import javax.swing.JOptionPane;
-import projektni.zadatak.Klase.*;
 
 public class Dodaj_posao extends Forma_Posao {
             

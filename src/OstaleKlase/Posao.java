@@ -1,5 +1,5 @@
 
-package projektni.zadatak.Klase;
+package OstaleKlase;
 import java.io.*;
 import java.time.DayOfWeek;
 import java.time.Duration;
@@ -14,6 +14,10 @@ public class Posao implements Serializable{
     private String naziv;
     private LocalTime vremeDolaska;
     private LocalTime vremeOdlaska;
+    
+    public Posao(String naziv) {
+        this.naziv = naziv;
+    }
 
     public Posao(double plata, String naziv, LocalTime vremeDolaska, LocalTime VremeOdlaska) {
         this.plata = plata;

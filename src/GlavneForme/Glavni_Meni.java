@@ -1,17 +1,15 @@
 
-package projektni.zadatak.Forme;
+package GlavneForme;
 
+import OstaleKlase.PomocneFunkcije;
+import FormeIzvoda.Radnici_Meni;
 import FormeIzmena.*;
 import KlaseOsoba.*;
-import projektni.zadatak.Klase.Datoteke;
-import projektni.zadatak.*;
+import OstaleKlase.Datoteke;
 import java.text.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.*;
 import javax.swing.JOptionPane;
-import projektni.zadatak.Klase.*;
 
 
 public final class Glavni_Meni extends Glavna_Forma {
@@ -19,7 +17,6 @@ public final class Glavni_Meni extends Glavna_Forma {
         ArrayList<Dolazak_Radnika> sviDolasci;
         DateFormat format_vreme = new SimpleDateFormat("HH:mm");
         DateFormat format_datum = new SimpleDateFormat("dd/MM/yyyy");
-        LocalDate datum = LocalDate.now();
         Calendar cal = Calendar.getInstance();
         
     public Glavni_Meni() {
@@ -87,6 +84,11 @@ public final class Glavni_Meni extends Glavna_Forma {
         kod.setBackground(new java.awt.Color(224, 224, 249));
         kod.setToolTipText("");
         kod.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        kod.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                kodKeyTyped(evt);
+            }
+        });
 
         ulaznoDugme.setBackground(new java.awt.Color(255, 255, 255));
         ulaznoDugme.setText("Prijava");
@@ -208,33 +210,47 @@ public final class Glavni_Meni extends Glavna_Forma {
             sviDolasci = Datoteke.citaj_iz_velike();
             int id = Integer.parseInt(kod.getText().trim());
             Radnik uneseniRadnik = nadjiRadnika(id);
-
-            boolean vecUnesen = false;
-            for(int i = 0; i < sviDolasci.size(); i++)
-            {
-                if((uneseniRadnik.getId() == sviDolasci.get(i).getRadnik().getId()))
-                {
-                    if(sviDolasci.get(i).getDatum_dolaska().getDayOfYear() == datum.getDayOfYear() && 
-                       sviDolasci.get(i).getDatum_dolaska().getYear() == datum.getYear())
-                    {
-                        vecUnesen = true;
-                        break;
-                    }                    
-                }
-            }
+            LocalDate datum = LocalDate.now();
             
-            if(vecUnesen == false)
+            if(uneseniRadnik == null)
             {
-                Dolazak_Radnika prisutniRadnik = new Dolazak_Radnika(uneseniRadnik, datum, LocalTime.now());
-                sviDolasci.add(prisutniRadnik);
-                Datoteke.upisi_u_veliku(sviDolasci);
-                JOptionPane.showMessageDialog(null, "Uspesno ste prijavili radnika!");
+                JOptionPane.showMessageDialog(null, "Radnik sa ovim ID brojem ne postoji!");
+            }
+            else if(uneseniRadnik.isStatus() == false)
+            {
+                JOptionPane.showMessageDialog(null, "Radnik je neaktivan");
+            }
+            else if(uneseniRadnik.getPosao().getNaziv().equals("Nema posao"))
+            {
+                JOptionPane.showMessageDialog(null, "Radnik nije prijavljen ni na jedan posao!");
             }
             else
             {
-                JOptionPane.showMessageDialog(null, "Radnik je trenutno prisutan, mozete ga samo odjaviti");
-            }
-        
+                boolean vecUnesen = false;
+                for(int i = 0; i < sviDolasci.size(); i++)
+                {
+                    if((uneseniRadnik.getId() == sviDolasci.get(i).getRadnik().getId()))
+                    {
+                        if(sviDolasci.get(i).getDatum_dolaska().compareTo(datum) == 0)
+                        {
+                            vecUnesen = true;
+                            break;
+                        }                    
+                    }
+                }
+
+                if(vecUnesen == false)
+                {
+                    Dolazak_Radnika prisutniRadnik = new Dolazak_Radnika(uneseniRadnik, datum, LocalTime.now());
+                    sviDolasci.add(prisutniRadnik);
+                    Datoteke.upisi_u_veliku(sviDolasci);
+                    JOptionPane.showMessageDialog(null, "Uspesno ste prijavili radnika!");
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Radnik je trenutno prisutan, mozete ga samo odjaviti");
+                }
+                }
     }//GEN-LAST:event_ulaznoDugmeActionPerformed
 
     private void izvodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_izvodActionPerformed
@@ -290,42 +306,74 @@ public final class Glavni_Meni extends Glavna_Forma {
             sviDolasci = Datoteke.citaj_iz_velike();
             int id = Integer.parseInt(kod.getText().trim());
             Radnik uneseniRadnik = nadjiRadnika(id);
-
-            boolean vecOtpisan = false;
-            int potrebniRadnik = 0;
-
-            for(int i = 0; i < sviDolasci.size(); i++)
-            {
-                if(id == sviDolasci.get(i).getRadnik().getId())
-                {
-                    if(sviDolasci.get(i).getDatum_dolaska().getDayOfYear() == datum.getDayOfYear() && 
-                       sviDolasci.get(i).getDatum_dolaska().getYear() == datum.getYear())
-                    {
-                        if(sviDolasci.get(i).getVreme_odjave()!=null)
-                        {
-                            vecOtpisan = true;
-                            break;
-                        }
-                        else
-                        {
-                            potrebniRadnik = i;
-                            break;
-                        }
-                    }
-                }
-            }
+            LocalDate datum = LocalDate.now();
             
-            if(!vecOtpisan)
+            if(uneseniRadnik == null)
             {
-                sviDolasci.get(potrebniRadnik).setVreme_odjave(LocalTime.now());
-                Datoteke.upisi_u_veliku(sviDolasci);
-                JOptionPane.showMessageDialog(null, "Uspesno ste odjavili radnika!");
+                JOptionPane.showMessageDialog(null, "Radnik sa ovim ID brojem ne postoji!");
+            }
+            else if(uneseniRadnik.isStatus() == false)
+            {
+                JOptionPane.showMessageDialog(null, "Radnik je neaktivan");
+            }
+            else if(uneseniRadnik.getPosao().getNaziv().equals("Nema posao"))
+            {
+                JOptionPane.showMessageDialog(null, "Radnik nije prijavljen ni na jedan posao!");
             }
             else
             {
-                JOptionPane.showMessageDialog(null, "Radnik se već odjavio!");
+                boolean vecOtpisan = false;
+                boolean nijeNiDosao = false;
+                int potrebniRadnik = 0;
+
+                for(int i = 0; i < sviDolasci.size(); i++)
+                {
+                    if(id == sviDolasci.get(i).getRadnik().getId())
+                    {
+                        if(sviDolasci.get(i).getDatum_dolaska().compareTo(datum) == 0)
+                            {
+                                if(sviDolasci.get(i).getVreme_odjave()!=null)
+                                {
+                                    vecOtpisan = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    potrebniRadnik = i;
+                                    nijeNiDosao = false;
+                                    break;
+                                }
+                            }
+
+                        else
+                        {
+                            nijeNiDosao = true;
+                        }
+                    }
+                }
+
+                if(vecOtpisan==false && nijeNiDosao == false)
+                {
+                    sviDolasci.get(potrebniRadnik).setVreme_odjave(LocalTime.now());
+                    Datoteke.upisi_u_veliku(sviDolasci);
+                    JOptionPane.showMessageDialog(null, "Uspesno ste odjavili radnika!");
+                }
+                else if(vecOtpisan)
+                {
+                    JOptionPane.showMessageDialog(null, "Radnik se već odjavio!");
+                }
+                else if(nijeNiDosao)
+                {
+                    JOptionPane.showMessageDialog(null, "Radnik nije ni prijavljen!");
+                }
             }
     }//GEN-LAST:event_izlaznoDugmeActionPerformed
+
+    private void kodKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_kodKeyTyped
+       char t = evt.getKeyChar();
+         if(!(Character.isDigit(t)))
+             evt.consume();
+    }//GEN-LAST:event_kodKeyTyped
 
     /**
      * @param args the command line arguments

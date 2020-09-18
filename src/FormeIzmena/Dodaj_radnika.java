@@ -5,12 +5,9 @@
  */
 package FormeIzmena;
 
+import OstaleKlase.*;
 import KlaseOsoba.Radnik;
-import javax.swing.DefaultComboBoxModel;
-import projektni.zadatak.Klase.Datoteke;
 import javax.swing.JOptionPane;
-import projektni.zadatak.Glavna_Forma;
-import projektni.zadatak.Klase.*;
 
 public final class Dodaj_radnika extends Forma_Radnik {
 
@@ -101,8 +98,8 @@ public final class Dodaj_radnika extends Forma_Radnik {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(prezime_radnika_dodavanje, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ime_radnika_dodavanje, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(izbor_Posla, 0, 121, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                    .addComponent(izbor_Posla, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

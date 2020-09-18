@@ -2,7 +2,7 @@
 package FormeIzmena;
 
 import javax.swing.DefaultComboBoxModel;
-import projektni.zadatak.Glavna_Forma;
+import GlavneForme.Glavna_Forma;
 
 public abstract class Forma_Radnik extends Glavna_Forma {
 

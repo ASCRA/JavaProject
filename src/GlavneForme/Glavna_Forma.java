@@ -1,8 +1,9 @@
-package projektni.zadatak;
+package GlavneForme;
 
+import OstaleKlase.Datoteke;
+import OstaleKlase.Posao;
 import KlaseOsoba.Radnik;
 import java.util.ArrayList;
-import projektni.zadatak.Klase.*;
 
 public abstract class Glavna_Forma extends javax.swing.JFrame {
 

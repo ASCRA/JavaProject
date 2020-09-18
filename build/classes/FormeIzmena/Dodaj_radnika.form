@@ -36,8 +36,8 @@
               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                   <Component id="prezime_radnika_dodavanje" alignment="0" max="32767" attributes="0"/>
                   <Component id="ime_radnika_dodavanje" alignment="0" max="32767" attributes="0"/>
-                  <Component id="izbor_Posla" pref="121" max="32767" attributes="0"/>
-                  <Component id="jButton1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jButton1" alignment="0" pref="176" max="32767" attributes="0"/>
+                  <Component id="izbor_Posla" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>

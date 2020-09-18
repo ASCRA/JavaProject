@@ -4,18 +4,11 @@ package FormeIzvoda;
 import static FormeIzvoda.Mesecni_Izvod.izabraniMesec;
 import java.util.*;
 import javax.swing.table.*;
-import projektni.zadatak.Klase.Datoteke;
 import KlaseOsoba.*;
 import java.awt.print.PrinterException;
-import java.text.DecimalFormat;
-import java.text.MessageFormat;
-import java.time.DayOfWeek;
-import java.time.Duration;
-import java.time.YearMonth;
-import java.time.ZoneId;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
+import java.text.*;
+import java.time.*;
+import javax.swing.*;
 
 public class Raspon_Izvod extends Forma_Izvoda implements Obracuni{
 
@@ -177,43 +170,42 @@ public class Raspon_Izvod extends Forma_Izvoda implements Obracuni{
 
     @Override
     public long obracunajRadneSate(Radnik radnik) {
+        Calendar cal = Calendar.getInstance();
         int godina = pocetniDatum.toInstant().atZone(ZoneId.systemDefault()).getYear();
         int dan = pocetniDatum.toInstant().atZone(ZoneId.systemDefault()).getDayOfMonth();
-        int mesec = pocetniDatum.toInstant().atZone(ZoneId.systemDefault()).getMonthValue()-1;   
-        
-        YearMonth godinaMesec = YearMonth.of(godina, mesec);
-        int brojDanaUMesecu = godinaMesec.lengthOfMonth();
-        
-        boolean postojiRadnik = false;
+        int mesec = pocetniDatum.toInstant().atZone(ZoneId.systemDefault()).getMonthValue() - 1;  
+        cal.set(godina, mesec, dan);
+        int brojDanaUMesecu = cal.getActualMaximum(Calendar.DATE);
         
         long broj_radnih_sati = 0;
         while(true)
         {
-            if((dan > krajnjiDatum.toInstant().atZone(ZoneId.systemDefault()).getDayOfMonth()) && (mesec == krajnjiDatum.toInstant().atZone(ZoneId.systemDefault()).getMonthValue()-1))
+            if(cal.getTime().compareTo(krajnjiDatum) > 0)
                 break;
            
             else
             {
                 if(dan > brojDanaUMesecu)
                 {
-                    dan = 1;
-                    mesec++;
-                    godinaMesec = YearMonth.of(godina, mesec);
-                    brojDanaUMesecu = godinaMesec.lengthOfMonth();
+                    if(mesec >= 12)
+                        cal.set(++godina, 1, 1);
+                    else
+                        cal.set(godina, ++mesec, 1);
+                    brojDanaUMesecu = cal.getActualMaximum(Calendar.DATE);
                 }
                 for(int i = 0; i < sviDolasci.size(); i++)
                 {
                     if(sviDolasci.get(i).getVreme_odjave()!=null)
                     {
-                        if((sviDolasci.get(i).getRadnik().getId() == radnik.getId()) && (sviDolasci.get(i).getDatum_dolaska().getDayOfMonth() == dan))
+                        if((sviDolasci.get(i).getRadnik().getId() == radnik.getId()) && (sviDolasci.get(i).getDatum_dolaska().getDayOfYear() == cal.getTime().toInstant().atZone(ZoneId.systemDefault()).getDayOfYear()) && (sviDolasci.get(i).getDatum_dolaska().getYear() == cal.getTime().toInstant().atZone(ZoneId.systemDefault()).getYear()))
                         {
                             long brojMinuta = Duration.between(sviDolasci.get(i).getVreme_prijave(), sviDolasci.get(i).getVreme_odjave()).toMinutes();
                             broj_radnih_sati += brojMinuta/60;
-
+                            break;
                         }
                     }
                 }
-                ++dan;
+                cal.set(godina, mesec, ++dan);
             }
             
         }
@@ -230,40 +222,43 @@ public class Raspon_Izvod extends Forma_Izvoda implements Obracuni{
     }
     
         public double nadjiPlatu(Radnik radnik) {
+        Calendar cal = Calendar.getInstance();
         int godina = pocetniDatum.toInstant().atZone(ZoneId.systemDefault()).getYear();
         int dan = pocetniDatum.toInstant().atZone(ZoneId.systemDefault()).getDayOfMonth();
-        int mesec = pocetniDatum.toInstant().atZone(ZoneId.systemDefault()).getMonthValue()-1;   
-        
-        YearMonth godinaMesec = YearMonth.of(godina, mesec);
-        int brojDanaUMesecu = godinaMesec.lengthOfMonth();
+        int mesec = pocetniDatum.toInstant().atZone(ZoneId.systemDefault()).getMonthValue() - 1;  
+        int kvota = 0;
+        cal.set(godina, mesec, dan);
+        int brojDanaUMesecu = cal.getActualMaximum(Calendar.DATE);
+
         int broj_radnih_dana = 0;
         double prosecnaPlata = 0;
         while(true)
         {
-            if((dan > krajnjiDatum.toInstant().atZone(ZoneId.systemDefault()).getDayOfMonth()) && (mesec == krajnjiDatum.toInstant().atZone(ZoneId.systemDefault()).getMonthValue()-1))
+            if(cal.getTime().compareTo(krajnjiDatum) > 0)
                 break;
            
             else
             {
                 if(dan > brojDanaUMesecu)
                 {
-                    dan = 1;
-                    mesec++;
-                    godinaMesec = YearMonth.of(godina, mesec);
-                    brojDanaUMesecu = godinaMesec.lengthOfMonth();
+                    if(mesec >= 12)
+                        cal.set(++godina, 1, 1);
+                    else
+                        cal.set(godina, ++mesec, 1);
+                    brojDanaUMesecu = cal.getActualMaximum(Calendar.DATE);
                 }
                 for(int i = 0; i < sviDolasci.size(); i++)
                 {
                     if(sviDolasci.get(i).getVreme_odjave()!=null)
                     {
-                        if((sviDolasci.get(i).getRadnik().getId() == radnik.getId()) && (sviDolasci.get(i).getDatum_dolaska().getDayOfMonth() == dan))
+                        if((sviDolasci.get(i).getRadnik().getId() == radnik.getId()) && (sviDolasci.get(i).getDatum_dolaska().getDayOfYear() == cal.getTime().toInstant().atZone(ZoneId.systemDefault()).getDayOfYear()) && (sviDolasci.get(i).getDatum_dolaska().getYear() == cal.getTime().toInstant().atZone(ZoneId.systemDefault()).getYear()))
                         {
                             broj_radnih_dana++;
                             prosecnaPlata += sviDolasci.get(i).getRadnik().getPosao().getPlata();
                         }
                     }
                 }
-                ++dan;
+                cal.set(godina, mesec, ++dan);
             }
         }
         prosecnaPlata = (prosecnaPlata/broj_radnih_dana);
@@ -305,38 +300,40 @@ public class Raspon_Izvod extends Forma_Izvoda implements Obracuni{
         int mesec = pocetniDatum.toInstant().atZone(ZoneId.systemDefault()).getMonthValue() - 1;  
         int kvota = 0;
         cal.set(godina, mesec, dan);
-
-        int brojDanaUMesecu = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        int brojDanaUMesecu = cal.getActualMaximum(Calendar.DATE);
         
         while(true)
         {
-            if((dan > krajnjiDatum.toInstant().atZone(ZoneId.systemDefault()).getDayOfMonth()) && (mesec == krajnjiDatum.toInstant().atZone(ZoneId.systemDefault()).getMonthValue()-1))
+            if(cal.getTime().compareTo(krajnjiDatum) > 0)
                 break;
-           
             else
             {
                 if(dan > brojDanaUMesecu)
                 {
-                    dan = 1;
-                    mesec++;
-                    cal.set(godina, mesec, dan);
-                    brojDanaUMesecu = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+                    if(mesec >= 12)
+                        cal.set(++godina, 1, 1);
+                    else
+                        cal.set(godina, ++mesec, 1);
+                    brojDanaUMesecu = cal.getActualMaximum(Calendar.DATE);
                 }
                 for(int i = 0; i < sviDolasci.size(); i++)
                 {
                     if(sviDolasci.get(i).getVreme_odjave()!=null)
                     {
-                        if((sviDolasci.get(i).getRadnik().getId() == radnik.getId()) && (sviDolasci.get(i).getDatum_dolaska().getDayOfMonth() == dan))
+                        if((sviDolasci.get(i).getRadnik().getId() == radnik.getId()))
                         {
                             if(!(cal.getTime().toInstant().atZone(ZoneId.systemDefault()).getDayOfWeek().compareTo(DayOfWeek.SUNDAY) == 0)
                                 && !(cal.getTime().toInstant().atZone(ZoneId.systemDefault()).getDayOfWeek().compareTo(DayOfWeek.SATURDAY) == 0))
                             {
                                 kvota += sviDolasci.get(i).getRadnik().getPosao().obracunajDnevnuKvotu();
+                                break;
+//                                
                             }
                         }
                     }
                 }
-                ++dan;
+                cal.set(godina, mesec, ++dan);
+               
             }
         }
         return kvota;
